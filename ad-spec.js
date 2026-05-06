@@ -1,6 +1,5 @@
-const KEY = "ad_spec_list_slugs"; // localStorage key (stores slugs)
+const KEY = "ad_spec_list_slugs";
 
-// ---------------- STORAGE ----------------
 function loadList() {
   try {
     return JSON.parse(localStorage.getItem(KEY) || "[]");
@@ -8,9 +7,11 @@ function loadList() {
     return [];
   }
 }
+
 function saveList(v) {
   localStorage.setItem(KEY, JSON.stringify(v));
 }
+
 function clearList() {
   localStorage.removeItem(KEY);
   renderList();
@@ -41,11 +42,9 @@ function getSpec(slug) {
   return SPECS.find((s) => s.slug === slug);
 }
 
-// ---------------- UI ----------------
 function renderSpecs() {
   const el = document.getElementById("addCart");
   el.addEventListener("click", (e) => {
-    console.log("click");
     const btn = e.target.closest("[data-add-slug]");
     if (!btn) return;
     addSpec(btn.getAttribute("data-add-slug"));
@@ -62,6 +61,7 @@ function renderList() {
     document.getElementById("specDL-download-dot").style.display = "none";
     return;
   }
+
   document.getElementById("specDL-download-dot").style.display = "block";
   el.innerHTML = slugs
     .map((slug) => {
@@ -78,6 +78,7 @@ function renderList() {
       `;
     })
     .join("");
+
   document.getElementById("specDL-download-btn").style.display = "flex";
 }
 
@@ -87,42 +88,30 @@ function syncButtons() {
     const slug = btn.getAttribute("data-add-slug");
     const added = slugs.includes(slug);
     btn.disabled = added;
-    btn.innerHTML = added ? `<span class="badge">✓</span> Added` : `<span class="badge">＋</span> Add to download`;
+    btn.innerHTML = added
+      ? `<span class="badge">✓</span> Added`
+      : `<span class="badge">＋</span> Add to download`;
   });
 }
 
-// ---------------- PDF HELPERS ----------------
-// function placeholderImage(text) {
-//   const svg = `
-//     <svg xmlns="http://www.w3.org/2000/svg" width="700" height="260">
-//       <rect width="100%" height="100%" fill="#f3f4f6"/>
-//       <rect x="14" y="14" width="672" height="232" fill="#fff" stroke="#d1d5db" stroke-width="2"/>
-//       <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
-//         font-family="Arial" font-size="24" fill="#6b7280">${text}</text>
-//     </svg>`;
-//   ret
-// }
 function placeholderImage(base64Img, text) {
   const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="700" height="260">      
-      <!-- background -->
-      <rect width="100%" height="100%" fill="#f3f4f6"/>      
-      <!-- frame -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="700" height="260">
+      <rect width="100%" height="100%" fill="#f3f4f6"/>
       <rect x="14" y="14" width="672" height="232" fill="#fff" stroke="#d1d5db" stroke-width="2"/>
-      <!-- image -->
       <image href="${base64Img}" x="14" y="14" width="672" height="232" preserveAspectRatio="xMidYMid meet"/>
-      <!-- fallback text (optional overlay) -->
       <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
         font-family="Arial" font-size="24" fill="#6b7280">${base64Img ? "" : text}</text>
     </svg>
   `;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
+
 function buildPdfDom(specs) {
   const root = document.createElement("div");
   root.id = "specDL-root";
   const colthead = ["18%", "18%", "46%", "18%"];
- 
+
   root.innerHTML = `
     <div class="specDL-page specDL-pageBreak specDL-cover">
       <div style="display:inline-block;">
@@ -147,17 +136,16 @@ function buildPdfDom(specs) {
           <p style="font-weight:bold;font-style:italic;color:#434343;font-size:12px;">Remark: </p>
           <span style="font-size:12px;font-style:italic;color:#434343;">${s.remark}</span>
         </div>
-        <a
-          href="${s.link}"
-          target="_blank"
-          class="specDL-demo-link"
-          style="display:inline-block;background:#000;color:#fff;border-radius:10px;padding:10px 20px;text-decoration:none;margin-top:10px;"
-        >View Demo</a>
+        <div
+          class="specDL-demo-btn"
+          data-href="${s.link}"
+          style="display:inline-block;background:#000;color:#fff;border-radius:10px;padding:10px 20px;margin-top:10px;font-family:Arial,sans-serif;font-size:13px;cursor:default;"
+        >View Demo ↗</div>
         <h4 style="margin:20px 0 10px 0;">Ad Spec</h4>
         <table class="specDL-table" style="width:100%;table-layout:fixed;border-collapse:collapse;">
           <thead>
             <tr>
-              ${s.table[0].map((h, i) => `<th style="width:${colthead[i]};text-align:left;">${h}</th>`).join("")}
+              ${s.table[0].map((h, idx) => `<th style="width:${colthead[idx]};text-align:left;">${h}</th>`).join("")}
             </tr>
           </thead>
           <tbody>
@@ -185,7 +173,7 @@ function buildPdfDom(specs) {
       )
       .join("")}
   `;
- 
+
   return root;
 }
 
@@ -200,10 +188,21 @@ async function downloadPdf() {
   const stage = document.getElementById("specDL-render-stage");
   stage.innerHTML = "";
 
+  Object.assign(stage.style, {
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "794px",
+    zIndex: "-9999",
+    background: "#fff",
+    visibility: "hidden",
+    pointerEvents: "none",
+  });
+
   const pdfDom = buildPdfDom(specs);
   stage.appendChild(pdfDom);
 
-  await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 120)));
+  await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 200)));
 
   const A4_WIDTH_PT  = 595.28;
   const A4_HEIGHT_PT = 841.89;
@@ -212,7 +211,7 @@ async function downloadPdf() {
     .set({
       filename    : "KULT_Display_AdSpec.pdf",
       margin      : 0,
-      html2canvas : { scale: 2, backgroundColor: "#fff" },
+      html2canvas : { scale: 2, backgroundColor: "#fff", useCORS: true },
       jsPDF       : { unit: "pt", format: "a4", orientation: "portrait" },
       pagebreak   : { mode: ["css"] },
     })
@@ -220,33 +219,37 @@ async function downloadPdf() {
 
   const pdf = await worker.toPdf().get("pdf");
 
-  const domRect  = pdfDom.getBoundingClientRect();
-  const scaleX   = A4_WIDTH_PT / domRect.width;
+  const stageRect  = stage.getBoundingClientRect();
+  const stageWidth = stage.offsetWidth || 794;
+  const scaleX     = A4_WIDTH_PT / stageWidth;
 
-  const linkAnchors = pdfDom.querySelectorAll("a.specDL-demo-link");
+  const domButtons = pdfDom.querySelectorAll(".specDL-demo-btn");
 
-  linkAnchors.forEach((anchor) => {
-    const rect = anchor.getBoundingClientRect();
+  domButtons.forEach((btn) => {
+    const href = btn.getAttribute("data-href");
+    if (!href) return;
 
-    const elLeft   = (rect.left - domRect.left) * scaleX;
-    const elTop    = (rect.top  - domRect.top)  * scaleX;
-    const elWidth  = rect.width  * scaleX;
-    const elHeight = rect.height * scaleX;
+    const btnRect   = btn.getBoundingClientRect();
+    const offsetTop = btnRect.top - stageRect.top;
+
+    const elLeft   = (btnRect.left - stageRect.left) * scaleX;
+    const elTop    = offsetTop * scaleX;
+    const elWidth  = btnRect.width  * scaleX;
+    const elHeight = btnRect.height * scaleX;
 
     const pageIndex = Math.floor(elTop / A4_HEIGHT_PT);
     const yOnPage   = elTop - pageIndex * A4_HEIGHT_PT;
 
     pdf.setPage(pageIndex + 1);
-    pdf.link(elLeft, yOnPage, elWidth, elHeight, { url: anchor.href });
+    pdf.link(elLeft, yOnPage, elWidth, elHeight, { url: href });
   });
 
   pdf.save("KULT_Display_AdSpec.pdf");
+
   stage.innerHTML = "";
+  stage.removeAttribute("style");
 }
-// ---------------- EXCEL EXPORT ----------------
-// Requires SheetJS — loaded automatically from CDN on first use.
-// No images are included in the Excel export.
- 
+
 (function loadSheetJS() {
   if (window.XLSX) return;
   const s = document.createElement("script");
@@ -254,40 +257,33 @@ async function downloadPdf() {
   s.onload = () => console.log("SheetJS ready");
   document.head.appendChild(s);
 })();
- 
+
 function _stripHtml(str) {
   return String(str || "")
-  .split("<br/>").join("\r\n")
+    .split("<br/>").join("\r\n")
     .split("<br />").join("\r\n")
     .split("<br>").join("\r\n")
     .split("</br>").join("\r\n")
     .replace(/<[^>]+>/g, "")
     .trim();
-    // .split("<br/>").join("\n")
-    // .split("<br />").join("\n")
-    // .split("<br>").join("\n")
-    // .split("</br>").join("\n")
-    // .replace(/<[^>]+>/g, "")
-    // .trim();
 }
- 
-// -- low-level cell writer --
+
 function _setCell(ws, col, row, value, style) {
   ws[col + row] = { v: value, t: "s", s: style || {} };
 }
- 
-// -- shared cell styles --
+
 var _border = {
   top:    { style: "thin", color: { rgb: "D1D5DB" } },
   bottom: { style: "thin", color: { rgb: "D1D5DB" } },
   left:   { style: "thin", color: { rgb: "D1D5DB" } },
   right:  { style: "thin", color: { rgb: "D1D5DB" } },
 };
+
 var _XLS = {
   title: {
     font: { bold: true, sz: 13, color: { rgb: "FFFFFF" } },
     fill: { patternType: "solid", fgColor: { rgb: "000000" } },
-    alignment: { vertical: "center", horizontal: "center", wrapText: true }
+    alignment: { vertical: "center", horizontal: "center", wrapText: true },
   },
   metaLabel: {
     font: { bold: true, sz: 10 },
@@ -304,7 +300,7 @@ var _XLS = {
   adSpecLabel: {
     font: { bold: true, sz: 20 },
     fill: { patternType: "solid", fgColor: { rgb: "FFFFFF" } },
-    alignment: { vertical: "center", horizontal: "center", wrapText: true }
+    alignment: { vertical: "center", horizontal: "center", wrapText: true },
   },
   tableHead: {
     font: { bold: true, sz: 10, color: { rgb: "000000" } },
@@ -334,7 +330,9 @@ function _safeSheetName(name) {
     .trim()
     .substring(0, 31) || "Sheet";
 }
+
 var _COLS = ["A", "B", "C", "D"];
+
 function downloadExcel() {
   if (!window.XLSX) {
     alert("SheetJS is still loading — please try again in a moment.");
@@ -348,28 +346,26 @@ function downloadExcel() {
   }
 
   var specs = slugs.map(getSpec).filter(Boolean);
-
   var wb = XLSX.utils.book_new();
 
-  specs.forEach(function(spec) {
-
+  specs.forEach(function (spec) {
     var ws = {};
     var merges = [];
     var rowHeights = [];
     var r = 1;
-
     var tableBody = spec.table.slice(1);
 
-    _COLS.forEach(function(c) { _setCell(ws, c, r, "", _XLS.title); });
+    _COLS.forEach(function (c) { _setCell(ws, c, r, "", _XLS.title); });
     ws["A" + r].v = spec.title;
-    merges.push({ s: { r: r-1, c: 0 }, e: { r: r-1, c: 3 } });
+    merges.push({ s: { r: r - 1, c: 0 }, e: { r: r - 1, c: 3 } });
     rowHeights.push({ hpt: 26 });
     r++;
+
     _setCell(ws, "A", r, "Description", _XLS.metaLabel);
     _setCell(ws, "B", r, _stripHtml(spec.description), _XLS.metaValue);
     _setCell(ws, "C", r, "", _XLS.metaValue);
     _setCell(ws, "D", r, "", _XLS.metaValue);
-    merges.push({ s: { r: r-1, c: 1 }, e: { r: r-1, c: 3 } });
+    merges.push({ s: { r: r - 1, c: 1 }, e: { r: r - 1, c: 3 } });
     rowHeights.push({ hpt: 36 });
     r++;
 
@@ -377,7 +373,7 @@ function downloadExcel() {
     _setCell(ws, "B", r, spec.dimension, _XLS.metaValue);
     _setCell(ws, "C", r, "", _XLS.metaValue);
     _setCell(ws, "D", r, "", _XLS.metaValue);
-    merges.push({ s: { r: r-1, c: 1 }, e: { r: r-1, c: 3 } });
+    merges.push({ s: { r: r - 1, c: 1 }, e: { r: r - 1, c: 3 } });
     rowHeights.push({ hpt: 20 });
     r++;
 
@@ -387,7 +383,7 @@ function downloadExcel() {
       _setCell(ws, "B", r, remark, _XLS.metaValue);
       _setCell(ws, "C", r, "", _XLS.metaValue);
       _setCell(ws, "D", r, "", _XLS.metaValue);
-      merges.push({ s: { r: r-1, c: 1 }, e: { r: r-1, c: 3 } });
+      merges.push({ s: { r: r - 1, c: 1 }, e: { r: r - 1, c: 3 } });
       rowHeights.push({ hpt: 20 });
       r++;
     }
@@ -396,25 +392,25 @@ function downloadExcel() {
     _setCell(ws, "B", r, spec.link, _XLS.metaValue);
     _setCell(ws, "C", r, "", _XLS.metaValue);
     _setCell(ws, "D", r, "", _XLS.metaValue);
-    merges.push({ s: { r: r-1, c: 1 }, e: { r: r-1, c: 3 } });
+    merges.push({ s: { r: r - 1, c: 1 }, e: { r: r - 1, c: 3 } });
     rowHeights.push({ hpt: 20 });
     r++;
 
-    _COLS.forEach(function(c) { _setCell(ws, c, r, "", _XLS.adSpecLabel); });
+    _COLS.forEach(function (c) { _setCell(ws, c, r, "", _XLS.adSpecLabel); });
     ws["A" + r].v = "Ad Spec";
-    merges.push({ s: { r: r-1, c: 0 }, e: { r: r-1, c: 3 } });
+    merges.push({ s: { r: r - 1, c: 0 }, e: { r: r - 1, c: 3 } });
     rowHeights.push({ hpt: 28 });
     r++;
 
-    spec.table[0].forEach(function(h, i) {
+    spec.table[0].forEach(function (h, i) {
       _setCell(ws, _COLS[i], r, h, _XLS.tableHead);
     });
     rowHeights.push({ hpt: 20 });
     r++;
 
-    tableBody.forEach(function(row, idx) {
+    tableBody.forEach(function (row, idx) {
       var style = idx % 2 === 0 ? _XLS.tableRowEven : _XLS.tableRowOdd;
-      row.forEach(function(cell, i) {
+      row.forEach(function (cell, i) {
         _setCell(ws, _COLS[i], r, _stripHtml(cell), style);
       });
       rowHeights.push({ hpt: 40 });
@@ -423,29 +419,23 @@ function downloadExcel() {
 
     ws["!ref"]    = "A1:D" + (r - 1);
     ws["!merges"] = merges;
-    ws["!cols"]   = [
-      { wch: 20 },
-      { wch: 28 },
-      { wch: 48 },
-      { wch: 22 }
-    ];
-    ws["!rows"] = rowHeights;
+    ws["!cols"]   = [{ wch: 20 }, { wch: 28 }, { wch: 48 }, { wch: 22 }];
+    ws["!rows"]   = rowHeights;
 
     XLSX.utils.book_append_sheet(wb, ws, _safeSheetName(spec.title));
   });
 
   XLSX.writeFile(wb, "KULT_Display_AdSpec.xlsx");
 }
- 
- 
+
 document.getElementById("specDL-card-close").addEventListener("click", function () {
   document.getElementById("specDL-card").style.display = "none";
 });
+
 document.getElementById("specDL-download").addEventListener("click", function () {
   document.getElementById("specDL-card").style.display = "unset";
 });
 
-// Wire up Excel button if present in HTML
 document.addEventListener("DOMContentLoaded", function () {
   const excelBtn = document.getElementById("specDL-excel-btn");
   if (excelBtn) {
@@ -458,19 +448,18 @@ $("#desc-dropdown").click(function () {
   $("#addCart").toggleClass("show visible");
   $("#desc-dropdown").toggleClass("show visible");
 });
+
 function observeWidth2() {
-  const target2 = $("body")[0]; // get raw DOM element
+  const target2 = $("body")[0];
   const ro2 = new ResizeObserver((entries) => {
     for (let entry of entries) {
       const width = $(entry.target).width();
       if (width > 1039 && width < 1200) {
-        $(".gallery-inner-section").addClass("mid");
-        $(".gallery-inner-section").removeClass("small");
+        $(".gallery-inner-section").addClass("mid").removeClass("small");
       } else if (width < 1040) {
         $(".gallery-inner-section").addClass("mid small");
       } else {
-        $(".gallery-inner-section").removeClass("mid");
-        $(".gallery-inner-section").removeClass("small");
+        $(".gallery-inner-section").removeClass("mid small");
       }
     }
   });
@@ -478,8 +467,6 @@ function observeWidth2() {
 }
 
 observeWidth2();
-//renderList();
-// INIT
 renderSpecs();
 renderList();
 syncButtons();
