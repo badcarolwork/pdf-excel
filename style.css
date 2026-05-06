@@ -1,0 +1,548 @@
+.gallery-desc{
+padding: 5px 10px;
+}
+.gallery-desc h4 {
+font-size: 20px;
+}
+.gallery-col {
+    width: 33.33%;
+    padding: 1.6vw 0.42vw;
+}
+.featured-gallery-section {
+    padding: 90px var(--left) 0;
+}
+.gallery-section {
+    padding: 20px;
+}
+.gallery-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -1.6vw -0.42vw;
+    margin-bottom: 50px;
+}
+.gallery-col {
+    width: 33.33%;
+    padding: 1.6vw 0.42vw;
+}
+a.gallery-box {
+    text-decoration: none;
+    cursor: pointer !important;
+}
+.gallery-thumb {
+    width: 100%;
+    /*height: 95%;*/
+    margin-bottom: 1.18vw;
+    overflow: hidden;
+    min-height: 250px;
+    background-image: url(https://kult.my/wp-content/uploads/2025/09/bg1.png);
+    background-repeat: no-repeat;
+    background-position: -35px center;
+    background-size: cover;
+    margin-top: 8%;
+    display: flex;
+    aspect-ratio: 1;
+}
+.gallery-thumb img {
+    width: 90%;
+    height: 90%;
+    transition: .5s;
+    margin: auto;
+}
+.gallery-thumb video {
+    width: 100%;
+    height: auto;
+    margin: auto;
+}
+.gallery-desc .date {
+    margin-bottom: .5vw;
+}
+
+.gallery-desc h4 {
+    margin-bottom: 0.5vw;
+}
+
+.gallery-desc p {
+    color: var(--grey);
+}
+.gallery-inner-section {
+    padding: var(--top2) var(--left) 0;
+	position:relative;
+    display: flex;
+	flex-flow: column wrap;
+}
+
+.gallery-inner-row {
+    display: inline-flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.blog-inner-left {
+    width: 55.63vw;
+}
+
+a.gallery-box:hover .gallery-thumb img {
+    transform: scale(1.08);
+}
+
+body.page-template-gallery, body.gallery-inner-page{
+	cursor: unset!important;
+}
+.gallery-inner.ad-desc-container{
+    order: 2;
+    width: calc(100% - 910px);
+    padding: 10px 0px 0 30px;
+}
+.gallery-inner.ad-container{
+	order: 1;
+    width: fit-content;
+}
+#desc-dropdown{
+	display: none;
+    width: fit-content;
+    padding-left: 1.5rem;
+}
+.mid .gallery-inner.ad-desc-container{
+    order: 1;
+    width: 100%;
+    padding: unset;
+}
+.mid .gallery-inner.ad-container{
+	order: 2;
+    width: fit-content;
+}
+.mid #desc-title{
+	display: inline-block;
+    width: fit-content;
+}
+.mid #desc-dropdown{
+	display: inline-block;
+}
+.mid .description-container{
+	display: none;
+}
+.mid #addCart{
+	display: none;
+}
+#desc-dropdown{
+    transition: transform 0.3s ease;
+    transform-origin: 75% 50%;
+}
+
+#desc-dropdown.show{
+	transform: rotate(-180deg);
+    
+}
+.mid .description-container.show{
+	display: block;
+}
+.mid #addCart.show{
+	display: block;
+    margin-bottom: 20px;
+}
+.tag-container{
+	zoom: 80%;
+}
+.tag-container.skinner{
+	zoom: 50%;
+}
+.mid .tag-container{
+	zoom: 100%;
+}
+.small .tag-container{
+	zoom: 80%;
+}
+.page-template-gallery .cursor, .gallery-inner-page .cursor{
+	display: none!important;
+}
+
+body.page-template-gallery .menu ul a, body.page-template-gallery .footer-link a,body.page-template-gallery a, body.page-template-gallery button, body.page-template-gallery input[type=submit], body.gallery-inner-page .menu ul a, body.gallery-inner-page .footer-link a,body.gallery-inner-page a, body.gallery-inner-page button, body.gallery-inner-page input[type=submit]{
+    cursor: pointer !important;
+}
+/* for ad benchmark */
+.ad-benchmark1 {
+  padding: 8px 14px;
+  color: #000;
+  background-color: rgba(255, 110, 199, 0.7);
+  width: 108px;
+  height: 35px;
+  border-radius: 19px;
+  margin-top: 20px;
+  display: inline-block;
+  z-index: 12;
+  position: relative;
+}
+.ad-benchmark2 {
+  font-style: italic;
+  padding: 7px 10px 7px 28px;
+  display: inline-block;
+  margin-left: -29px;
+  color: grey;
+  border: 1px solid rgba(255, 110, 199, 0.4);
+  border-radius: 20px;
+  width: 238px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.ad-benchmark2.short{
+	width:150px;
+}
+
+@media only screen and (max-width: 767px) {
+.gallery-col {
+        width: 100%;
+        padding: 3vw;
+    }
+    .gallery-section {
+    	padding: 0px;
+	}
+    .gallery-section .btn-holder {
+        margin-top: 6vw;
+        margin-left: 10px;
+    }
+
+    /*gallery inner*/
+    .gallery-inner-section {
+        padding: 90px var(--left) 0;
+    }
+
+    .gallery-inner-left {
+        width: 100%;
+        margin-bottom: 6vw;
+    }
+    .small .tag-container{
+		zoom: 100%;
+	}
+}
+
+footer .cta-img, footer .cta{display: none;}
+
+.kult-filter{display:flex;flex-wrap:wrap;gap:10px;padding:0 20px;overflow-x:auto;}
+.kult-chip{padding:6px 12px;border-radius:999px;border:1px solid #999;background:transparent;cursor:pointer}
+.kult-chip.is-active{background:#000;color:#fff}
+.gallery-inner-section a.btn-back{
+    width: fit-content;
+    margin-bottom: 1.5rem;
+    cursor:pointer;
+    z-index: 100;    
+    margin-top: 1.5rem;
+    display: inline-flex;
+}
+.gallery-inner-section a.btn-back .back-box{width: 1.78vw;height: 1.78vw;padding: 0.5vw;min-width: 20px; min-height: 20px;}
+.gallery-inner-section a.btn-back img{width:100%;height:100%;}
+
+
+:root {
+  --specDL-a4w: 794px;
+  --specDL-a4h: 1123px;
+  --specDL-margin: 48px;
+}
+
+#specDL-render-stage {
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  /* IMPORTANT: give it full A4 space so nothing clips */
+  width: var(--specDL-a4w);
+  height: var(--specDL-a4h);
+
+  pointer-events: none;
+  opacity: 0.01;
+  background: #fff;
+  z-index: 999999;
+
+  /* IMPORTANT: do NOT clip */
+  overflow: visible;
+}
+
+#specDL-root {
+  width: var(--specDL-a4w);
+  background: #fff;
+}
+
+.specDL-page{
+  width: var(--specDL-a4w);
+  box-sizing: border-box;
+  padding: var(--specDL-margin);
+  padding-bottom: calc(var(--specDL-margin) + 18px); /* extra breathing room */
+  overflow: hidden; /* keep page clean; stage is visible now so ok */
+}
+
+
+.specDL-pageBreak {
+  page-break-after: always;
+  break-after: page;
+}
+
+.specDL-cover {
+  text-align: center;
+  padding-top: 140px;
+}
+
+.specDL-muted {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.specDL-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.specDL-table th, .specDL-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  vertical-align: top;
+}
+.specDL-table th {
+  background: #f3f4f6;
+  width: 35%;
+}
+
+.specDL-image {
+  max-width: 100%;
+  margin-top: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+#specDL-download{
+    width: fit-content;
+    right: 1.5rem;
+    margin-top: 1.5rem;
+    position: absolute;
+    margin-bottom: 1.5rem;
+    display: inline-flex;
+    padding: 5px;
+}
+#specDL-download-dot{
+    width: 9px;
+    height: 9px;
+    background-color: red;
+    border-radius: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+}
+#specDL-download svg{
+	width: fit-content;
+    display: inline-block;
+	vertical-align: middle;
+}
+#specDL-card-collapse{
+	cursor: pointer;
+    display: inline-block;
+}
+#specDL-card-close{
+	cursor: pointer;
+    padding: 5px 10px;
+    right: 0;
+    top: 0;
+    position: absolute;
+    width: fit-content;
+    font-size: 30px;
+    font-weight: lighter;
+    line-height: 25px;
+}
+.specDL-card{
+    position: absolute;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #999;
+    padding-top: 30px;
+    display: none;
+    right: 1.5rem;
+    margin-top: -3rem;
+    min-width: 320px;
+    z-index: 101;
+}
+#specDL-list{
+	display: flex;
+}
+.specDL-remove{
+	font-size: 12px;
+}
+.specDL-title{
+	display: inline;
+    font-weight: 300;
+    font-size: 20px;
+}
+#specDL-download-btn{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+}
+#specDL-card .pill-btn{
+    margin-left: 10px;
+    margin-right: 0px;
+}
+.pill-btn{
+    padding: 7px 12px;
+    background-color: #000;
+    color: #fff;
+    font-weight: 400;
+    margin-right: 10px;
+}
+#kult-gallery {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+	margin-bottom:40px;
+}
+#kult-gallery img{
+	width:auto;
+	max-width:80%;
+	height:100%;
+}
+#kult-gallery .kult-gallery-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-areas:
+    "s1 big s2"
+    "s3 big s4";
+  gap: 10px;
+}
+#kult-gallery .kult-small-row {
+  display: contents; /* children participate in parent grid */
+}
+#kult-gallery .kult-gallery-item {
+  background-color:#000;
+  cursor: pointer;
+  height:190px;
+  will-change: transform;
+  border-radius:10px;
+    overflow:hidden;
+ position: relative;
+}
+
+#kult-gallery .kult-demo-vid{
+	width:50%;
+	height:100%;
+    max-width:400px;
+	position:relative;
+	z-index:1;
+	margin: auto;
+    left: 0;
+    right: 0;
+    text-align:center;
+    overflow:hidden;
+	clip-path: inset(0 1px 0 0);
+}
+#kult-gallery .kult-demo-vid video, #kult-gallery .vid-poster{
+	width:auto;
+    height:98%;
+    display:block;
+    margin:auto;
+    backface-visibility: hidden;
+    object-fit: cover;
+    z-index: 1;
+    position:absolute;
+    opacity:0;
+    left:0;
+    right:0;
+}
+
+#kult-gallery .vid-poster{
+	height:100%;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+    opacity:1;
+    max-width:unset;
+}
+#kult-gallery .kult-big { 
+	grid-area: big; height:400px;
+	background-image:url('https://stg.kult.my/wp-content/uploads/2026/04/highlight-bg.jpg');
+    background-repeat: repeat-x;
+    background-position:left top;
+    background-size:auto 100%;
+    background-color:rgba(0,0,0,0);
+}
+#kult-gallery .kult-big .high-text-div{
+	background:rgba(255,255,255,0);
+}
+#kult-gallery .kult-s1 { grid-area: s1; }
+#kult-gallery .kult-s2 { grid-area: s2; }
+#kult-gallery .kult-s3 { grid-area: s3; }
+#kult-gallery .kult-s4 { grid-area: s4; }
+
+#kult-gallery .high-text-div{
+	width: 100%;
+	  position: absolute;
+	  bottom: 0;
+	  left: 0;
+	  z-index: 2;
+	  padding:20px 20px 10px 20px;
+	  color: #fff;
+      background: linear-gradient(0deg,rgba(109, 192, 173, .65) 28%, rgba(109, 192, 173, 0) 92%);
+      text-decoration: none;
+}
+#kult-gallery .kult-big .high-text-div .title{
+	font-size:22px;
+}
+#kult-gallery .kult-gallery-item .view-btn{
+	display:flex;
+	width:fit-content;
+	height:22px;
+	padding:4px 0;
+	font-size:14px;
+	font-weight: 400;
+}
+#kult-gallery .kult-gallery-item .view-btn .fa-regular{
+	font-size: 12px !important;
+    margin-right: 6px;
+    margin-top: 4px;
+}
+@media (max-width: 768px) {
+ #kult-gallery .kult-gallery-container {
+    display: block;
+  }
+  #kult-gallery .kult-big {
+    grid-area: big;
+    width: 100%;
+	margin-bottom:16px;
+  }
+ #kult-gallery .kult-small-row {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+  }
+
+ #kult-gallery .kult-small-row .kult-gallery-item {
+    min-width: 200px; /* adjust size as needed */
+    flex: 0 0 auto;
+  }
+  #kult-gallery .kult-demo-vid{
+		width: 100%;
+        height: 100%;
+	}
+    #kult-gallery .kult-demo-vid video{
+		width:100%;
+        height:100%;
+    }
+}
+#gallery-title{
+	padding: 0 20px;
+}
+#specDL-card .pill-btn{
+	display:flex;
+    align-items: center;
+    border-radius:4px;
+}
+#specDL-card div.badge{
+    background-size:90% auto;
+    background-position: center center;
+    background-repeat:no-repeat;
+    width:25px;
+   	height:25px
+}
+#specDL-card .badge-xls{
+    background-image: url('https://stg.kult.my/wp-content/uploads/2026/04/dl-xls.png');
+     
+}
+#specDL-card .badge-pdf{
+    background-image: url('https://stg.kult.my/wp-content/uploads/2026/04/dl-pdf.png');
+}
