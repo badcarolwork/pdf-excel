@@ -692,15 +692,15 @@ function buildPdfDom(specs) {
   const root = document.createElement("div");
   root.id = "specDL-root";
   const colthead = ["18%", "18%", "46%", "18%"];
-  root.innerHTML = `    
-    <div class="specDL-page specDL-pageBreak specDL-cover">     
+ 
+  root.innerHTML = `
+    <div class="specDL-page specDL-pageBreak specDL-cover">
       <div style="display:inline-block;">
-        <img style="width:60%;height:auto;margin-bottom:10px;" 
+        <img style="width:60%;height:auto;margin-bottom:10px;">
         <div style="height:4px;background:linear-gradient(90deg,#EDE6DB 0%,#FF6EC7 29.81%,#03FFFF 63.94%,#FF6A3D 96.15%);margin-top:7px;"></div>
       </div>
       <h1>Ad Specs Bundle</h1>
       <p class="specDL-muted">Generated ${new Date().toLocaleString()}</p>
-      
     </div>
     <div class="specDL-page specDL-pageBreak">
       <h2>Contents</h2>
@@ -713,30 +713,38 @@ function buildPdfDom(specs) {
         <h2>${s.title}</h2>
         <p style="opacity:.85">${s.description}</p>
         <p style="opacity:.85">Supported dimension: ${s.dimension}</p>
-        <div style="display:${s.remark ? "block" : "none"}"><p style="font-weight:bold;font-style:italic;color:#434343;font-size:12px;">Remark: </p><span style="font-size:12px;font-style: italic;color:#434343;">${s.remark} </span></div>
-        <a href="${s.link}" target="_blank" style="display:inline-block;background:#000;color:#fff;border-radius:10px;padding:10px 20px;text-decoration:none;margin-top:10px;">View Demo</a>
+        <div style="display:${s.remark ? "block" : "none"}">
+          <p style="font-weight:bold;font-style:italic;color:#434343;font-size:12px;">Remark: </p>
+          <span style="font-size:12px;font-style:italic;color:#434343;">${s.remark}</span>
+        </div>
+        <a
+          href="${s.link}"
+          target="_blank"
+          class="specDL-demo-link"
+          style="display:inline-block;background:#000;color:#fff;border-radius:10px;padding:10px 20px;text-decoration:none;margin-top:10px;"
+        >View Demo</a>
         <h4 style="margin:20px 0 10px 0;">Ad Spec</h4>
-        <table class="specDL-table" style="width:100%; table-layout:fixed; border-collapse:collapse;"">
-            <thead>
-                <tr>
-                    ${s.table[0].map((h, i) => `<th style="width:${colthead[i]};text-align:left;">${h}</th>`).join("")}
-                </tr>
-            </thead>
-            <tbody>
-                ${s.table
-                  .slice(1)
-                  .map(
-                    (r) => `
-                <tr>
-                    <td style="width:18%;text-align:left;">${r[0]}</td>
-                    <td style="width:18%;text-align:left;">${r[1]}</td>
-                    <td style="width:46%;text-align:left;">${r[2]}</td>
-                    <td style="width:18%;text-align:left;">${r[3]}</td>
-                </tr>
-                `,
-                  )
-                  .join("")}
-            </tbody>
+        <table class="specDL-table" style="width:100%;table-layout:fixed;border-collapse:collapse;">
+          <thead>
+            <tr>
+              ${s.table[0].map((h, i) => `<th style="width:${colthead[i]};text-align:left;">${h}</th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+            ${s.table
+              .slice(1)
+              .map(
+                (r) => `
+              <tr>
+                <td style="width:18%;text-align:left;">${r[0]}</td>
+                <td style="width:18%;text-align:left;">${r[1]}</td>
+                <td style="width:46%;text-align:left;">${r[2]}</td>
+                <td style="width:18%;text-align:left;">${r[3]}</td>
+              </tr>
+            `,
+              )
+              .join("")}
+          </tbody>
         </table>
         <img class="specDL-image" src="${placeholderImage(s.image, s.title)}" alt="">
         <p class="specDL-muted" style="margin-top:10px;">
@@ -747,6 +755,7 @@ function buildPdfDom(specs) {
       )
       .join("")}
   `;
+ 
   return root;
 }
 
@@ -756,16 +765,60 @@ async function downloadPdf() {
     alert("Select at least one spec.");
     return;
   }
+ 
   const specs = slugs.map(getSpec).filter(Boolean);
   const stage = document.getElementById("specDL-render-stage");
   stage.innerHTML = "";
+ 
   const pdfDom = buildPdfDom(specs);
   stage.appendChild(pdfDom);
+ 
   await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 120)));
-  await html2pdf()
-    .set({ filename: "KULT_Display_AdSpec.pdf", margin: 0, html2canvas: { scale: 2, backgroundColor: "#fff" }, jsPDF: { unit: "pt", format: "a4", orientation: "portrait" }, pagebreak: { mode: ["css"] } })
-    .from(pdfDom)
-    .save();
+ 
+  const A4_WIDTH_PT  = 595.28;
+  const A4_HEIGHT_PT = 841.89;
+ 
+  const worker = html2pdf()
+    .set({
+      filename      : "KULT_Display_AdSpec.pdf",
+      margin        : 0,
+      html2canvas   : { scale: 2, backgroundColor: "#fff" },
+      jsPDF         : { unit: "pt", format: "a4", orientation: "portrait" },
+      pagebreak     : { mode: ["css"] },
+    })
+    .from(pdfDom);
+ 
+  const pdf = await worker.toPdf().get("pdf");
+ 
+  const domRect   = pdfDom.getBoundingClientRect();
+  const domWidth  = domRect.width;
+  const domHeight = pdfDom.scrollHeight;
+  const scaleX    = A4_WIDTH_PT  / domWidth;
+  const scaleY    = A4_HEIGHT_PT / (domHeight / specs.length / 1);
+ 
+  const linkAnchors = pdfDom.querySelectorAll("a.specDL-demo-link");
+ 
+  linkAnchors.forEach((anchor) => {
+    const rect     = anchor.getBoundingClientRect();
+    const stageTop = stage.getBoundingClientRect().top;
+    const domEl    = pdfDom.getBoundingClientRect().top;
+ 
+    const anchorTop    = rect.top - domEl;
+    const anchorLeft   = rect.left - domEl + (rect.left - domRect.left);
+ 
+    const elLeft   = (rect.left - domRect.left) * scaleX;
+    const elTop    = anchorTop * scaleX;
+    const elWidth  = rect.width  * scaleX;
+    const elHeight = rect.height * scaleX;
+ 
+    const pageIndex = Math.floor(elTop / A4_HEIGHT_PT);
+    const yOnPage   = elTop - pageIndex * A4_HEIGHT_PT;
+ 
+    pdf.setPage(pageIndex + 1);
+    pdf.link(elLeft, yOnPage, elWidth, elHeight, { url: anchor.href });
+  });
+ 
+  pdf.save("KULT_Display_AdSpec.pdf");
   stage.innerHTML = "";
 }
 // ---------------- EXCEL EXPORT ----------------
