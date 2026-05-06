@@ -546,3 +546,332 @@ footer .cta-img, footer .cta{display: none;}
 #specDL-card .badge-pdf{
     background-image: url('https://stg.kult.my/wp-content/uploads/2026/04/dl-pdf.png');
 }
+/* ─── Download trigger button ──────────────────────────────────────────────── */
+
+#specDL-download {
+    position: absolute;
+    right: 1.5rem;
+    margin-top: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+    transition: background 0.22s ease, transform 0.18s ease, box-shadow 0.22s ease;
+    z-index: 110;
+    padding: 0;
+}
+
+#specDL-download:hover {
+    background: #222;
+    transform: translateY(-2px) scale(1.07);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.26);
+}
+
+#specDL-download:active {
+    transform: scale(0.96);
+}
+
+#specDL-download svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+    flex-shrink: 0;
+    margin: 0 auto;
+    vertical-align: unset;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+/* Badge / count dot */
+#specDL-download-dot {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    background: #FF6EC7;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-family: Arial, sans-serif;
+    pointer-events: none;
+}
+
+/* ─── Add to download button ───────────────────────────────────────────────── */
+
+#addCart {
+    margin-bottom: 0;
+}
+
+#addCart .pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #000;
+    color: #fff;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    user-select: none;
+    position: relative;
+    isolation: isolate;
+}
+
+#addCart .pill-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #FF6EC7 0%, #03FFFF 60%, #FF6A3D 100%);
+    opacity: 0;
+    transition: opacity 0.28s ease;
+    z-index: -1;
+    border-radius: inherit;
+}
+
+#addCart .pill-btn:hover::before {
+    opacity: 1;
+}
+
+#addCart .pill-btn:hover {
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 110, 199, 0.35);
+}
+
+#addCart .pill-btn:active {
+    transform: scale(0.97);
+}
+
+#addCart .pill-btn .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    transition: background 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+}
+
+#addCart .pill-btn:hover .badge {
+    background: rgba(0, 0, 0, 0.12);
+    color: #000;
+}
+
+/* Added / disabled state */
+#addCart .pill-btn[disabled],
+#addCart .pill-btn:disabled {
+    background: #f0f0f0;
+    color: #888;
+    border-color: #e0e0e0;
+    cursor: default;
+    box-shadow: none;
+    transform: none;
+    pointer-events: none;
+}
+
+#addCart .pill-btn[disabled]::before {
+    display: none;
+}
+
+#addCart .pill-btn[disabled] .badge {
+    background: #e0e0e0;
+    color: #aaa;
+}
+
+/* ─── Download card / panel ────────────────────────────────────────────────── */
+
+.specDL-card {
+    position: absolute;
+    right: 1.5rem;
+    margin-top: 0.5rem;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 16px;
+    padding: 24px 20px 18px;
+    min-width: 320px;
+    max-width: 360px;
+    display: none;
+    z-index: 200;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.13), 0 2px 8px rgba(0, 0, 0, 0.06);
+    animation: specDL-fadeIn 0.2s ease;
+}
+
+@keyframes specDL-fadeIn {
+    from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0)  scale(1); }
+}
+
+#specDL-card-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f2f2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    cursor: pointer;
+    color: #555;
+    transition: background 0.18s ease, color 0.18s ease;
+}
+
+#specDL-card-close:hover {
+    background: #000;
+    color: #fff;
+}
+
+#specDL-list .specDL-title {
+    font-weight: 500;
+    font-size: 14px;
+    display: inline;
+}
+
+#specDL-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+#specDL-list:last-child {
+    border-bottom: none;
+}
+
+.specDL-remove {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: #f5f5f5;
+    color: #555;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.specDL-remove:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+#specDL-download-btn {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 8px;
+    margin-top: 16px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#specDL-card .pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.18s, color 0.18s, transform 0.15s, box-shadow 0.18s;
+    margin: 0;
+    border: 2px solid transparent;
+}
+
+#specDL-card .pill-btn:not(.secondary) {
+    background: #000;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+#specDL-card .pill-btn:not(.secondary):hover {
+    background: #222;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+
+#specDL-card .pill-btn.secondary {
+    background: transparent;
+    color: #888;
+    border-color: #e0e0e0;
+}
+
+#specDL-card .pill-btn.secondary:hover {
+    background: #ffedf9;
+    color: #c0005a;
+    border-color: #FF6EC7;
+}
+
+#specDL-card div.badge {
+    background-size: 90% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+#specDL-card .badge-xls {
+    background-image: url('https://stg.kult.my/wp-content/uploads/2026/04/dl-xls.png');
+}
+
+#specDL-card .badge-pdf {
+    background-image: url('https://stg.kult.my/wp-content/uploads/2026/04/dl-pdf.png');
+}
+
+#specDL-card .small {
+    font-size: 11px;
+    color: #aaa;
+    width: 100%;
+    text-align: right;
+    margin-top: 2px;
+}
+
+/* ─── Panel heading ─────────────────────────────────────────────────────────── */
+
+.specDL-card::before {
+    content: 'Download List';
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #bbb;
+    margin-bottom: 12px;
+}
