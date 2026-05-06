@@ -84,6 +84,19 @@ function renderList() {
 
 function syncButtons() {
   const slugs = loadList();
+  const count = slugs.length;
+  const dot = document.getElementById("specDL-download-dot");
+
+  if (dot) {
+    if (count > 0) {
+      dot.style.display = "flex";
+      dot.textContent = count;
+    } else {
+      dot.style.display = "none";
+      dot.textContent = "";
+    }
+  }
+
   document.querySelectorAll("[data-add-slug]").forEach((btn) => {
     const slug = btn.getAttribute("data-add-slug");
     const added = slugs.includes(slug);
@@ -136,11 +149,12 @@ function buildPdfDom(specs) {
           <p style="font-weight:bold;font-style:italic;color:#434343;font-size:12px;">Remark: </p>
           <span style="font-size:12px;font-style:italic;color:#434343;">${s.remark}</span>
         </div>
-        <div
+        <a
+          href="${s.link}"
+          target="_blank"
           class="specDL-demo-btn"
-          data-href="${s.link}"
-          style="display:inline-block;background:#000;color:#fff;border-radius:10px;padding:10px 20px;margin-top:10px;font-family:Arial,sans-serif;font-size:13px;cursor:default;"
-        >View Demo ↗</div>
+          style="display:inline-block;background:#000;color:#fff;border-radius:10px;padding:10px 20px;margin-top:10px;font-family:Arial,sans-serif;font-size:13px;text-decoration:none;"
+        >View Demo</a>
         <h4 style="margin:20px 0 10px 0;">Ad Spec</h4>
         <table class="specDL-table" style="width:100%;table-layout:fixed;border-collapse:collapse;">
           <thead>
@@ -189,62 +203,33 @@ async function downloadPdf() {
   stage.innerHTML = "";
 
   Object.assign(stage.style, {
-    position: "fixed",
-    top: "0",
-    left: "0",
-    width: "794px",
-    zIndex: "-9999",
-    background: "#fff",
-    visibility: "hidden",
+    position     : "fixed",
+    top          : "0",
+    left         : "-9999px",
+    width        : "794px",
+    zIndex       : "9999",
+    background   : "#fff",
+    visibility   : "visible",
+    overflow     : "visible",
     pointerEvents: "none",
   });
 
   const pdfDom = buildPdfDom(specs);
   stage.appendChild(pdfDom);
 
-  await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 200)));
+  await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 300)));
 
-  const A4_WIDTH_PT  = 595.28;
-  const A4_HEIGHT_PT = 841.89;
-
-  const worker = html2pdf()
+  await html2pdf()
     .set({
       filename    : "KULT_Display_AdSpec.pdf",
       margin      : 0,
-      html2canvas : { scale: 2, backgroundColor: "#fff", useCORS: true },
+      enableLinks : true,
+      html2canvas : { scale: 2, backgroundColor: "#fff", useCORS: true, logging: false },
       jsPDF       : { unit: "pt", format: "a4", orientation: "portrait" },
       pagebreak   : { mode: ["css"] },
     })
-    .from(pdfDom);
-
-  const pdf = await worker.toPdf().get("pdf");
-
-  const stageRect  = stage.getBoundingClientRect();
-  const stageWidth = stage.offsetWidth || 794;
-  const scaleX     = A4_WIDTH_PT / stageWidth;
-
-  const domButtons = pdfDom.querySelectorAll(".specDL-demo-btn");
-
-  domButtons.forEach((btn) => {
-    const href = btn.getAttribute("data-href");
-    if (!href) return;
-
-    const btnRect   = btn.getBoundingClientRect();
-    const offsetTop = btnRect.top - stageRect.top;
-
-    const elLeft   = (btnRect.left - stageRect.left) * scaleX;
-    const elTop    = offsetTop * scaleX;
-    const elWidth  = btnRect.width  * scaleX;
-    const elHeight = btnRect.height * scaleX;
-
-    const pageIndex = Math.floor(elTop / A4_HEIGHT_PT);
-    const yOnPage   = elTop - pageIndex * A4_HEIGHT_PT;
-
-    pdf.setPage(pageIndex + 1);
-    pdf.link(elLeft, yOnPage, elWidth, elHeight, { url: href });
-  });
-
-  pdf.save("KULT_Display_AdSpec.pdf");
+    .from(pdfDom)
+    .save();
 
   stage.innerHTML = "";
   stage.removeAttribute("style");
