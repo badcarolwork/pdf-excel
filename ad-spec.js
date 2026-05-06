@@ -195,59 +195,51 @@ async function downloadPdf() {
     alert("Select at least one spec.");
     return;
   }
- 
+
   const specs = slugs.map(getSpec).filter(Boolean);
   const stage = document.getElementById("specDL-render-stage");
   stage.innerHTML = "";
- 
+
   const pdfDom = buildPdfDom(specs);
   stage.appendChild(pdfDom);
- 
+
   await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 120)));
- 
+
   const A4_WIDTH_PT  = 595.28;
   const A4_HEIGHT_PT = 841.89;
- 
+
   const worker = html2pdf()
     .set({
-      filename      : "KULT_Display_AdSpec.pdf",
-      margin        : 0,
-      html2canvas   : { scale: 2, backgroundColor: "#fff" },
-      jsPDF         : { unit: "pt", format: "a4", orientation: "portrait" },
-      pagebreak     : { mode: ["css"] },
+      filename    : "KULT_Display_AdSpec.pdf",
+      margin      : 0,
+      html2canvas : { scale: 2, backgroundColor: "#fff" },
+      jsPDF       : { unit: "pt", format: "a4", orientation: "portrait" },
+      pagebreak   : { mode: ["css"] },
     })
     .from(pdfDom);
- 
+
   const pdf = await worker.toPdf().get("pdf");
- 
-  const domRect   = pdfDom.getBoundingClientRect();
-  const domWidth  = domRect.width;
-  const domHeight = pdfDom.scrollHeight;
-  const scaleX    = A4_WIDTH_PT  / domWidth;
-  const scaleY    = A4_HEIGHT_PT / (domHeight / specs.length / 1);
- 
+
+  const domRect  = pdfDom.getBoundingClientRect();
+  const scaleX   = A4_WIDTH_PT / domRect.width;
+
   const linkAnchors = pdfDom.querySelectorAll("a.specDL-demo-link");
- 
+
   linkAnchors.forEach((anchor) => {
-    const rect     = anchor.getBoundingClientRect();
-    const stageTop = stage.getBoundingClientRect().top;
-    const domEl    = pdfDom.getBoundingClientRect().top;
- 
-    const anchorTop    = rect.top - domEl;
-    const anchorLeft   = rect.left - domEl + (rect.left - domRect.left);
- 
+    const rect = anchor.getBoundingClientRect();
+
     const elLeft   = (rect.left - domRect.left) * scaleX;
-    const elTop    = anchorTop * scaleX;
+    const elTop    = (rect.top  - domRect.top)  * scaleX;
     const elWidth  = rect.width  * scaleX;
     const elHeight = rect.height * scaleX;
- 
+
     const pageIndex = Math.floor(elTop / A4_HEIGHT_PT);
     const yOnPage   = elTop - pageIndex * A4_HEIGHT_PT;
- 
+
     pdf.setPage(pageIndex + 1);
     pdf.link(elLeft, yOnPage, elWidth, elHeight, { url: anchor.href });
   });
- 
+
   pdf.save("KULT_Display_AdSpec.pdf");
   stage.innerHTML = "";
 }
