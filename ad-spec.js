@@ -244,11 +244,15 @@ async function downloadPdf() {
 })();
 
 function _stripHtml(str) {
+  var nl = String.fromCharCode(13) + String.fromCharCode(10);
   return String(str || "")
-    .split("<br/>").join("\r\n")
-    .split("<br />").join("\r\n")
-    .split("<br>").join("\r\n")
-    .split("</br>").join("\r\n")
+    .split("<br/>").join(nl)
+    .split("<br />").join(nl)
+    .split("<br>").join(nl)
+    .split("</br>").join(nl)
+    .split("<BR>").join(nl)
+    .split("<BR/>").join(nl)
+    .split("<BR />").join(nl)
     .replace(/<[^>]+>/g, "")
     .trim();
 }
@@ -265,48 +269,78 @@ var _border = {
 };
 
 var _XLS = {
-  title: {
+  sheetTitle: {
     font: { bold: true, sz: 13, color: { rgb: "FFFFFF" } },
-    fill: { patternType: "solid", fgColor: { rgb: "000000" } },
-    alignment: { vertical: "center", horizontal: "center", wrapText: true },
+    fill: { patternType: "solid", fgColor: { rgb: "2E6DA4" } },
+    alignment: { vertical: "center", horizontal: "center", wrapText: false },
+    border: _border,
   },
-  metaLabel: {
-    font: { bold: true, sz: 10 },
-    fill: { patternType: "solid", fgColor: { rgb: "F3F4F6" } },
-    alignment: { vertical: "center", wrapText: true },
-    border: { bottom: { style: "thin", color: { rgb: "D1D5DB" } } },
-  },
-  metaValue: {
-    font: { sz: 10 },
-    fill: { patternType: "solid", fgColor: { rgb: "FFFFFF" } },
-    alignment: { vertical: "center", wrapText: true },
-    border: { bottom: { style: "thin", color: { rgb: "D1D5DB" } } },
-  },
-  adSpecLabel: {
-    font: { bold: true, sz: 20 },
-    fill: { patternType: "solid", fgColor: { rgb: "FFFFFF" } },
-    alignment: { vertical: "center", horizontal: "center", wrapText: true },
-  },
-  tableHead: {
+  rowLabel: {
     font: { bold: true, sz: 10, color: { rgb: "000000" } },
-    fill: { patternType: "solid", fgColor: { rgb: "9AF0E2" } },
+    fill: { patternType: "solid", fgColor: { rgb: "F3F4F6" } },
     alignment: { vertical: "center", horizontal: "left", wrapText: true },
     border: _border,
   },
-  tableRowEven: {
+  titleCell: {
+    font: { sz: 10, color: { rgb: "000000" } },
+    fill: { patternType: "solid", fgColor: { rgb: "FFFFFF" } },
+    alignment: { vertical: "center", horizontal: "left", wrapText: false },
+    border: _border,
+  },
+  colHeader: {
+    font: { bold: true, sz: 10, color: { rgb: "000000" } },
+    fill: { patternType: "solid", fgColor: { rgb: "9AF0E2" } },
+    alignment: { vertical: "center", horizontal: "center", wrapText: true },
+    border: _border,
+  },
+  dataCell: {
     font: { sz: 10 },
     fill: { patternType: "solid", fgColor: { rgb: "FFFFFF" } },
-    alignment: { vertical: "top", wrapText: true },
+    alignment: { vertical: "top", horizontal: "left", wrapText: true },
     border: _border,
   },
-  tableRowOdd: {
+  dataCellAlt: {
     font: { sz: 10 },
     fill: { patternType: "solid", fgColor: { rgb: "F9FAFB" } },
-    alignment: { vertical: "top", wrapText: true },
+    alignment: { vertical: "top", horizontal: "left", wrapText: true },
     border: _border,
   },
-  spacer: {},
+  remarkCell: {
+    font: { italic: true, sz: 9, color: { rgb: "666666" } },
+    fill: { patternType: "solid", fgColor: { rgb: "FFFFFF" } },
+    alignment: { vertical: "top", horizontal: "left", wrapText: true },
+  },
 };
+function _safeSheetName(name) {
+  return String(name)
+    .replace(/[:\/\?\*\[\]\\]/g, "_")
+    .replace(/\s+/g, " ")
+    .trim()
+    .substring(0, 31) || "Sheet";
+}
+
+function _colLetter(idx) {
+  var letters = "";
+  idx = idx + 1;
+  while (idx > 0) {
+    var rem = (idx - 1) % 26;
+    letters = String.fromCharCode(65 + rem) + letters;
+    idx = Math.floor((idx - 1) / 26);
+  }
+  return letters;
+}
+
+function _setCellAt(ws, colIdx, rowIdx, value, style) {
+  var ref = _colLetter(colIdx) + rowIdx;
+  ws[ref] = { v: value, t: "s", s: style || {} };
+}
+
+function _mergeRange(merges, startCol, startRow, endCol, endRow) {
+  merges.push({
+    s: { r: startRow - 1, c: startCol },
+    e: { r: endRow - 1,   c: endCol   },
+  });
+}
 
 function _safeSheetName(name) {
   return String(name)
@@ -316,7 +350,109 @@ function _safeSheetName(name) {
     .substring(0, 31) || "Sheet";
 }
 
-var _COLS = ["A", "B", "C", "D"];
+function _buildHorizontalSheet(spec) {
+  var ws = {};
+  var merges = [];
+  var rowHeights = [];
+  var colWidths = [];
+
+  var tableRows = spec.table.slice(1);
+  var numComponents = tableRows.length;
+
+  // Col A = ad title, Col B = row labels, Col C+ = components
+  var COL_TITLE      = 0;
+  var COL_LABEL      = 1;
+  var COL_FIRST_COMP = 2;
+
+  var ROW_HEADER      = 1;
+  var ROW_COMP        = 2;
+  var ROW_FILE_FORMAT = 3;
+  var ROW_DIMENSION   = 4;
+  var ROW_QUANTITY    = 5;
+  var ROW_LANDING_URL = 6;
+  var ROW_REMARK      = 7;
+
+  var lastDataCol = COL_FIRST_COMP + numComponents - 1;
+
+  // Row 1: "AD TEMPLATE" | "TECHNICAL SPECIFICATIONS/ FORMAT" merged across remaining cols
+  _setCellAt(ws, COL_TITLE, ROW_HEADER, "AD TEMPLATE", _XLS.sheetTitle);
+  _setCellAt(ws, COL_LABEL, ROW_HEADER, "TECHNICAL SPECIFICATIONS/ FORMAT", _XLS.sheetTitle);
+  _mergeRange(merges, COL_LABEL, ROW_HEADER, lastDataCol, ROW_HEADER);
+  for (var hi = COL_FIRST_COMP; hi <= lastDataCol; hi++) {
+    _setCellAt(ws, hi, ROW_HEADER, "", _XLS.sheetTitle);
+  }
+  rowHeights[ROW_HEADER - 1] = { hpt: 28 };
+
+  // Col A rows 2–6: spec title merged vertically
+  _setCellAt(ws, COL_TITLE, ROW_COMP, spec.title, _XLS.titleCell);
+  for (var tr = ROW_FILE_FORMAT; tr <= ROW_LANDING_URL; tr++) {
+    _setCellAt(ws, COL_TITLE, tr, "", _XLS.titleCell);
+  }
+  _mergeRange(merges, COL_TITLE, ROW_COMP, COL_TITLE, ROW_LANDING_URL);
+
+  // Row 2: "Component" | component names
+  _setCellAt(ws, COL_LABEL, ROW_COMP, "Component", _XLS.rowLabel);
+  tableRows.forEach(function (row, i) {
+    _setCellAt(ws, COL_FIRST_COMP + i, ROW_COMP, _stripHtml(row[0]), _XLS.colHeader);
+  });
+  rowHeights[ROW_COMP - 1] = { hpt: 36 };
+
+  // Row 3: "File Format" | values
+  _setCellAt(ws, COL_LABEL, ROW_FILE_FORMAT, "File Format", _XLS.rowLabel);
+  tableRows.forEach(function (row, i) {
+    var style = i % 2 === 0 ? _XLS.dataCell : _XLS.dataCellAlt;
+    _setCellAt(ws, COL_FIRST_COMP + i, ROW_FILE_FORMAT, _stripHtml(row[3]), style);
+  });
+  rowHeights[ROW_FILE_FORMAT - 1] = { hpt: 20 };
+
+  // Row 4: "Dimension (W x H)" | values
+  _setCellAt(ws, COL_LABEL, ROW_DIMENSION, "Dimension (W x H)", _XLS.rowLabel);
+  tableRows.forEach(function (row, i) {
+    var style = i % 2 === 0 ? _XLS.dataCell : _XLS.dataCellAlt;
+    _setCellAt(ws, COL_FIRST_COMP + i, ROW_DIMENSION, _stripHtml(row[2]), style);
+  });
+  rowHeights[ROW_DIMENSION - 1] = { hpt: 80 };
+
+  // Row 5: "Quantity" | values
+  _setCellAt(ws, COL_LABEL, ROW_QUANTITY, "Quantity", _XLS.rowLabel);
+  tableRows.forEach(function (row, i) {
+    var style = i % 2 === 0 ? _XLS.dataCell : _XLS.dataCellAlt;
+    _setCellAt(ws, COL_FIRST_COMP + i, ROW_QUANTITY, _stripHtml(row[1]), style);
+  });
+  rowHeights[ROW_QUANTITY - 1] = { hpt: 20 };
+
+  // Row 6: "Landing URL" | "1" merged across component cols
+  _setCellAt(ws, COL_LABEL, ROW_LANDING_URL, "Landing URL", _XLS.rowLabel);
+  _setCellAt(ws, COL_FIRST_COMP, ROW_LANDING_URL, "1", _XLS.dataCell);
+  if (numComponents > 1) {
+    _mergeRange(merges, COL_FIRST_COMP, ROW_LANDING_URL, lastDataCol, ROW_LANDING_URL);
+    for (var li = 1; li < numComponents; li++) {
+      _setCellAt(ws, COL_FIRST_COMP + li, ROW_LANDING_URL, "", _XLS.dataCell);
+    }
+  }
+  rowHeights[ROW_LANDING_URL - 1] = { hpt: 20 };
+
+  // Row 7: remark merged across all cols
+  var remarkText = _stripHtml(spec.remark);
+  for (var rc = COL_TITLE; rc <= lastDataCol; rc++) {
+    _setCellAt(ws, rc, ROW_REMARK, rc === COL_TITLE ? remarkText : "", _XLS.remarkCell);
+  }
+  _mergeRange(merges, COL_TITLE, ROW_REMARK, lastDataCol, ROW_REMARK);
+  rowHeights[ROW_REMARK - 1] = { hpt: 40 };
+
+  colWidths[COL_TITLE] = { wch: 18 };
+  colWidths[COL_LABEL] = { wch: 22 };
+  for (var ci = 0; ci < numComponents; ci++) {
+    colWidths[COL_FIRST_COMP + ci] = { wch: 30 };
+  }
+
+  ws["!ref"]    = "A1:" + _colLetter(lastDataCol) + ROW_REMARK;
+  ws["!merges"] = merges;
+  ws["!cols"]   = colWidths;
+  ws["!rows"]   = rowHeights;
+
+  return ws;
+}
 
 function downloadExcel() {
   if (!window.XLSX) {
@@ -334,79 +470,7 @@ function downloadExcel() {
   var wb = XLSX.utils.book_new();
 
   specs.forEach(function (spec) {
-    var ws = {};
-    var merges = [];
-    var rowHeights = [];
-    var r = 1;
-    var tableBody = spec.table.slice(1);
-
-    _COLS.forEach(function (c) { _setCell(ws, c, r, "", _XLS.title); });
-    ws["A" + r].v = spec.title;
-    merges.push({ s: { r: r - 1, c: 0 }, e: { r: r - 1, c: 3 } });
-    rowHeights.push({ hpt: 26 });
-    r++;
-
-    _setCell(ws, "A", r, "Description", _XLS.metaLabel);
-    _setCell(ws, "B", r, _stripHtml(spec.description), _XLS.metaValue);
-    _setCell(ws, "C", r, "", _XLS.metaValue);
-    _setCell(ws, "D", r, "", _XLS.metaValue);
-    merges.push({ s: { r: r - 1, c: 1 }, e: { r: r - 1, c: 3 } });
-    rowHeights.push({ hpt: 36 });
-    r++;
-
-    _setCell(ws, "A", r, "Dimension", _XLS.metaLabel);
-    _setCell(ws, "B", r, spec.dimension, _XLS.metaValue);
-    _setCell(ws, "C", r, "", _XLS.metaValue);
-    _setCell(ws, "D", r, "", _XLS.metaValue);
-    merges.push({ s: { r: r - 1, c: 1 }, e: { r: r - 1, c: 3 } });
-    rowHeights.push({ hpt: 20 });
-    r++;
-
-    var remark = _stripHtml(spec.remark);
-    if (remark) {
-      _setCell(ws, "A", r, "Remark", _XLS.metaLabel);
-      _setCell(ws, "B", r, remark, _XLS.metaValue);
-      _setCell(ws, "C", r, "", _XLS.metaValue);
-      _setCell(ws, "D", r, "", _XLS.metaValue);
-      merges.push({ s: { r: r - 1, c: 1 }, e: { r: r - 1, c: 3 } });
-      rowHeights.push({ hpt: 20 });
-      r++;
-    }
-
-    _setCell(ws, "A", r, "Demo Link", _XLS.metaLabel);
-    _setCell(ws, "B", r, spec.link, _XLS.metaValue);
-    _setCell(ws, "C", r, "", _XLS.metaValue);
-    _setCell(ws, "D", r, "", _XLS.metaValue);
-    merges.push({ s: { r: r - 1, c: 1 }, e: { r: r - 1, c: 3 } });
-    rowHeights.push({ hpt: 20 });
-    r++;
-
-    _COLS.forEach(function (c) { _setCell(ws, c, r, "", _XLS.adSpecLabel); });
-    ws["A" + r].v = "Ad Spec";
-    merges.push({ s: { r: r - 1, c: 0 }, e: { r: r - 1, c: 3 } });
-    rowHeights.push({ hpt: 28 });
-    r++;
-
-    spec.table[0].forEach(function (h, i) {
-      _setCell(ws, _COLS[i], r, h, _XLS.tableHead);
-    });
-    rowHeights.push({ hpt: 20 });
-    r++;
-
-    tableBody.forEach(function (row, idx) {
-      var style = idx % 2 === 0 ? _XLS.tableRowEven : _XLS.tableRowOdd;
-      row.forEach(function (cell, i) {
-        _setCell(ws, _COLS[i], r, _stripHtml(cell), style);
-      });
-      rowHeights.push({ hpt: 40 });
-      r++;
-    });
-
-    ws["!ref"]    = "A1:D" + (r - 1);
-    ws["!merges"] = merges;
-    ws["!cols"]   = [{ wch: 20 }, { wch: 28 }, { wch: 48 }, { wch: 22 }];
-    ws["!rows"]   = rowHeights;
-
+    var ws = _buildHorizontalSheet(spec);
     XLSX.utils.book_append_sheet(wb, ws, _safeSheetName(spec.title));
   });
 
