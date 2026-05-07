@@ -312,11 +312,10 @@ var _XLS = {
   },
 };
 function _safeSheetName(name) {
-  return String(name)
-    .replace(/[:\/\?\*\[\]\\]/g, "_")
-    .replace(/\s+/g, " ")
-    .trim()
-    .substring(0, 31) || "Sheet";
+  var result = String(name || 'Sheet');
+  result = result.split('/').join('');
+  result = result.split(' ').join('_');
+  return result.substring(0, 31) || 'Sheet';
 }
 
 function _colLetter(idx) {
@@ -340,14 +339,6 @@ function _mergeRange(merges, startCol, startRow, endCol, endRow) {
     s: { r: startRow - 1, c: startCol },
     e: { r: endRow - 1,   c: endCol   },
   });
-}
-
-function _safeSheetName(name) {
-  return String(name)
-    .replace(/[:\/\?\*\[\]\\]/g, "_")
-    .replace(/\s+/g, " ")
-    .trim()
-    .substring(0, 31) || "Sheet";
 }
 
 function _buildHorizontalSheet(spec) {
