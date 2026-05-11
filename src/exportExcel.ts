@@ -42,12 +42,6 @@ const STYLES = {
     alignment: { vertical: "top", horizontal: "left", wrapText: true },
     border: BORDER,
   } as CellStyle,
-  accent: {
-    font: { bold: true, sz: 10, color: { rgb: "FFFFFF" } },
-    fill: { patternType: "solid", fgColor: { rgb: "FF6EC7" } },
-    alignment: { vertical: "center", horizontal: "center" },
-    border: BORDER,
-  } as CellStyle,
 };
 
 function colLetter(idx: number): string {
@@ -80,11 +74,6 @@ function buildSheet(spec: AdSpec): Record<string, unknown> {
   const ws: Record<string, unknown> = {};
   const merges: { s: { r: number; c: number }; e: { r: number; c: number } }[] = [];
 
-  const COL_LABEL = 0;
-  const COLS = [0, 1, 2, 3];
-  const headers = ["Component", "Quantity", "Size", "Format"];
-  const widths = ["25%", "15%", "40%", "20%"];
-
   let row = 1;
 
   for (let c = 0; c < 4; c++) {
@@ -99,14 +88,17 @@ function buildSheet(spec: AdSpec): Record<string, unknown> {
   mergeRange(merges, 0, row, 3, row);
   row++;
 
-  for (let c = 0; c < 4; c++) {
-    setCell(ws, c, row, c === 0 ? (spec.remark ? `Remark: ${spec.remark}` : "") : "", STYLES.meta);
+  if (spec.remark) {
+    for (let c = 0; c < 4; c++) {
+      setCell(ws, c, row, c === 0 ? `Remark: ${spec.remark}` : "", STYLES.meta);
+    }
+    mergeRange(merges, 0, row, 3, row);
+    row++;
   }
-  mergeRange(merges, 0, row, 3, row);
-  row++;
 
+  const headers = ["Component", "Quantity", "Size", "Format"];
   for (let c = 0; c < 4; c++) {
-    setCell(ws, COLS[c], row, headers[c], STYLES.subheader);
+    setCell(ws, c, row, headers[c], STYLES.subheader);
   }
   row++;
 
@@ -119,12 +111,7 @@ function buildSheet(spec: AdSpec): Record<string, unknown> {
     row++;
   });
 
-  for (let c = 0; c < 4; c++) {
-    setCell(ws, c, row, c === 0 ? spec.link : "", STYLES.meta);
-  }
-  mergeRange(merges, 0, row, 3, row);
-
-  ws["!ref"] = `A1:D${row}`;
+  ws["!ref"] = `A1:D${row - 1}`;
   ws["!merges"] = merges;
   ws["!cols"] = [{ wch: 30 }, { wch: 14 }, { wch: 48 }, { wch: 22 }];
   ws["!rows"] = [{ hpt: 28 }, { hpt: 18 }, { hpt: 36 }, { hpt: 22 }];

@@ -17,7 +17,7 @@ function buildPdfDom(specs: AdSpec[]): HTMLElement {
   const coverHtml = `
     <div style="width:794px;padding:60px 48px;background:#fff;text-align:center;page-break-after:always;">
       <div style="display:inline-block;margin-bottom:24px;">
-        <div style="height:4px;background:linear-gradient(90deg,#FF6EC7 0%,#03FFFF 50%,#FF6A3D 100%);border-radius:2px;margin-bottom:16px;"></div>
+        <div style="height:4px;background:linear-gradient(90deg,#7C6AF7 0%,#B06AF7 50%,#E56AF7 100%);border-radius:2px;margin-bottom:16px;"></div>
         <h1 style="font-size:36px;font-weight:800;color:#0D0D0D;margin:0 0 8px;letter-spacing:-1px;">Rich Media Ad Spec Bundle</h1>
         <p style="font-size:14px;color:#888;margin:0;">Generated ${new Date().toLocaleString()}</p>
       </div>
@@ -34,20 +34,19 @@ function buildPdfDom(specs: AdSpec[]): HTMLElement {
     .map(
       (s, i) => `
     <div style="width:794px;padding:48px;background:#fff;${i < specs.length - 1 ? "page-break-after:always;" : ""}">
-      <div style="height:3px;background:linear-gradient(90deg,#FF6EC7,#03FFFF,#FF6A3D);border-radius:2px;margin-bottom:24px;"></div>
+      <div style="height:3px;background:linear-gradient(90deg,#7C6AF7,#B06AF7,#E56AF7);border-radius:2px;margin-bottom:24px;"></div>
       <h2 style="font-size:24px;font-weight:800;color:#0D0D0D;margin:0 0 8px;letter-spacing:-0.5px;">${s.title}</h2>
       <p style="font-size:13px;color:#555;line-height:1.6;margin:0 0 16px;">${stripHtml(s.description)}</p>
-      <div style="display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap;">
+      <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
         <div style="background:#F5F3EE;border-radius:6px;padding:8px 14px;">
           <span style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#999;display:block;margin-bottom:2px;">Dimensions</span>
           <span style="font-size:12px;color:#333;font-weight:600;">${s.dimension}</span>
         </div>
-        ${s.remark ? `<div style="background:#FFF8F5;border-radius:6px;padding:8px 14px;flex:1;">
+        ${s.remark ? `<div style="background:#F5F3FC;border-radius:6px;padding:8px 14px;flex:1;">
           <span style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#999;display:block;margin-bottom:2px;">Remark</span>
           <span style="font-size:12px;color:#555;">${stripHtml(s.remark)}</span>
         </div>` : ""}
       </div>
-      <a href="${s.link}" target="_blank" style="display:inline-block;background:#0D0D0D;color:#fff;border-radius:6px;padding:8px 18px;font-size:12px;text-decoration:none;font-weight:600;margin-bottom:20px;">View Demo →</a>
       <h3 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#aaa;margin:0 0 10px;">Asset Specifications</h3>
       <table style="width:100%;border-collapse:collapse;font-size:12px;">
         <thead>
@@ -73,7 +72,6 @@ function buildPdfDom(specs: AdSpec[]): HTMLElement {
             .join("")}
         </tbody>
       </table>
-      <p style="margin-top:20px;font-size:10px;color:#ccc;letter-spacing:1px;">SLUG: ${s.slug}</p>
     </div>
   `
     )
@@ -109,7 +107,7 @@ export async function downloadPdf(specs: AdSpec[]): Promise<void> {
     .set({
       filename: "RichMedia_AdSpec_Bundle.pdf",
       margin: 0,
-      enableLinks: true,
+      enableLinks: false,
       html2canvas: { scale: 2, backgroundColor: "#fff", useCORS: true, logging: false },
       jsPDF: { unit: "pt", format: "a4", orientation: "portrait" },
       pagebreak: { mode: ["css"] },
