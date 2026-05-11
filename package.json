@@ -1,0 +1,17 @@
+{
+  "name": "ad-spec-tool",
+  "version": "1.0.0",
+  "description": "Ad Spec selector and PDF/Excel downloader",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.4.5"
+  }
+}
