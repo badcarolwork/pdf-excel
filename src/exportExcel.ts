@@ -146,5 +146,5 @@ export function downloadExcel(specs: AdSpec[]): void {
     XLSX.utils.book_append_sheet(wb, ws, safeSheetName(spec.title));
   });
 
-  XLSX.writeFile(wb, "KULT_AdSpec_Bundle.xlsx");
+  XLSX.writeFile(wb, "RichMedia_AdSpec_Bundle.xlsx");
 }

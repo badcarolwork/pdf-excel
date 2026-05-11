@@ -18,7 +18,7 @@ function buildPdfDom(specs: AdSpec[]): HTMLElement {
     <div style="width:794px;padding:60px 48px;background:#fff;text-align:center;page-break-after:always;">
       <div style="display:inline-block;margin-bottom:24px;">
         <div style="height:4px;background:linear-gradient(90deg,#FF6EC7 0%,#03FFFF 50%,#FF6A3D 100%);border-radius:2px;margin-bottom:16px;"></div>
-        <h1 style="font-size:36px;font-weight:800;color:#0D0D0D;margin:0 0 8px;letter-spacing:-1px;">Ad Spec Bundle</h1>
+        <h1 style="font-size:36px;font-weight:800;color:#0D0D0D;margin:0 0 8px;letter-spacing:-1px;">Rich Media Ad Spec Bundle</h1>
         <p style="font-size:14px;color:#888;margin:0;">Generated ${new Date().toLocaleString()}</p>
       </div>
       <div style="margin-top:40px;">
@@ -107,7 +107,7 @@ export async function downloadPdf(specs: AdSpec[]): Promise<void> {
 
   await html2pdf()
     .set({
-      filename: "KULT_AdSpec_Bundle.pdf",
+      filename: "RichMedia_AdSpec_Bundle.pdf",
       margin: 0,
       enableLinks: true,
       html2canvas: { scale: 2, backgroundColor: "#fff", useCORS: true, logging: false },
