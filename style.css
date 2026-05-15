@@ -4,10 +4,6 @@ padding: 5px 10px;
 .gallery-desc h4 {
 font-size: 20px;
 }
-.gallery-col {
-    width: 33.33%;
-    padding: 1.6vw 0.42vw;
-}
 .featured-gallery-section {
     padding: 90px var(--left) 0;
 }
@@ -30,11 +26,10 @@ a.gallery-box {
 }
 .gallery-thumb {
     width: 100%;
-    /*height: 95%;*/
     margin-bottom: 1.18vw;
     overflow: hidden;
     min-height: 250px;
-    background-image: url(https://kult.my/wp-content/uploads/2025/09/bg1.png);
+    background-image: url('/wp-content/uploads/2026/05/bg1.png');
     background-repeat: no-repeat;
     background-position: -35px center;
     background-size: cover;
@@ -132,7 +127,6 @@ body.page-template-gallery, body.gallery-inner-page{
 
 #desc-dropdown.show{
 	transform: rotate(-180deg);
-    
 }
 .mid .description-container.show{
 	display: block;
@@ -160,7 +154,6 @@ body.page-template-gallery, body.gallery-inner-page{
 body.page-template-gallery .menu ul a, body.page-template-gallery .footer-link a,body.page-template-gallery a, body.page-template-gallery button, body.page-template-gallery input[type=submit], body.gallery-inner-page .menu ul a, body.gallery-inner-page .footer-link a,body.gallery-inner-page a, body.gallery-inner-page button, body.gallery-inner-page input[type=submit]{
     cursor: pointer !important;
 }
-/* for ad benchmark */
 .ad-benchmark1 {
   padding: 8px 14px;
   color: #000;
@@ -203,7 +196,6 @@ body.page-template-gallery .menu ul a, body.page-template-gallery .footer-link a
         margin-left: 10px;
     }
 
-    /*gallery inner*/
     .gallery-inner-section {
         padding: 90px var(--left) 0;
     }
@@ -244,17 +236,12 @@ footer .cta-img, footer .cta{display: none;}
   position: fixed;
   left: 0;
   top: 0;
-
-  /* IMPORTANT: give it full A4 space so nothing clips */
   width: var(--specDL-a4w);
   height: var(--specDL-a4h);
-
   pointer-events: none;
   opacity: 0.01;
   background: #fff;
   z-index: 999999;
-
-  /* IMPORTANT: do NOT clip */
   overflow: visible;
 }
 
@@ -267,10 +254,9 @@ footer .cta-img, footer .cta{display: none;}
   width: var(--specDL-a4w);
   box-sizing: border-box;
   padding: var(--specDL-margin);
-  padding-bottom: calc(var(--specDL-margin) + 18px); /* extra breathing room */
-  overflow: hidden; /* keep page clean; stage is visible now so ok */
+  padding-bottom: calc(var(--specDL-margin) + 18px);
+  overflow: hidden;
 }
-
 
 .specDL-pageBreak {
   page-break-after: always;
@@ -407,7 +393,7 @@ footer .cta-img, footer .cta{display: none;}
   gap: 10px;
 }
 #kult-gallery .kult-small-row {
-  display: contents; /* children participate in parent grid */
+  display: contents;
 }
 #kult-gallery .kult-gallery-item {
   background-color:#000;
@@ -415,8 +401,8 @@ footer .cta-img, footer .cta{display: none;}
   height:190px;
   will-change: transform;
   border-radius:10px;
-    overflow:hidden;
- position: relative;
+  overflow:hidden;
+  position: relative;
 }
 
 #kult-gallery .kult-demo-vid{
@@ -455,7 +441,7 @@ footer .cta-img, footer .cta{display: none;}
 }
 #kult-gallery .kult-big { 
 	grid-area: big; height:400px;
-	background-image:url('https://stg.kult.my/wp-content/uploads/2026/04/highlight-bg.jpg');
+	background-image:url('/wp-content/uploads/2026/04/highlight-bg.jpg');
     background-repeat: repeat-x;
     background-position:left top;
     background-size:auto 100%;
@@ -471,14 +457,14 @@ footer .cta-img, footer .cta{display: none;}
 
 #kult-gallery .high-text-div{
 	width: 100%;
-	  position: absolute;
-	  bottom: 0;
-	  left: 0;
-	  z-index: 2;
-	  padding:20px 20px 10px 20px;
-	  color: #fff;
-      background: linear-gradient(0deg,rgba(109, 192, 173, .65) 28%, rgba(109, 192, 173, 0) 92%);
-      text-decoration: none;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 2;
+	padding:20px 20px 10px 20px;
+	color: #fff;
+    background: linear-gradient(0deg,rgba(109, 192, 173, .65) 28%, rgba(109, 192, 173, 0) 92%);
+    text-decoration: none;
 }
 #kult-gallery .kult-big .high-text-div .title{
 	font-size:22px;
@@ -510,9 +496,8 @@ footer .cta-img, footer .cta{display: none;}
     overflow-x: auto;
     gap: 10px;
   }
-
  #kult-gallery .kult-small-row .kult-gallery-item {
-    min-width: 200px; /* adjust size as needed */
+    min-width: 200px;
     flex: 0 0 auto;
   }
   #kult-gallery .kult-demo-vid{
@@ -540,13 +525,11 @@ footer .cta-img, footer .cta{display: none;}
    	height:25px
 }
 #specDL-card .badge-xls{
-    background-image: url('https://stg.kult.my/wp-content/uploads/2026/04/dl-xls.png');
-     
+    background-image: url('/wp-content/uploads/2026/04/dl-xls.png');
 }
 #specDL-card .badge-pdf{
-    background-image: url('https://stg.kult.my/wp-content/uploads/2026/04/dl-pdf.png');
+    background-image: url('/wp-content/uploads/2026/04/dl-pdf.png');
 }
-/* ─── Download trigger button ──────────────────────────────────────────────── */
 
 #specDL-download {
     position: absolute;
@@ -578,18 +561,17 @@ footer .cta-img, footer .cta{display: none;}
 }
 
 #specDL-download svg {
-    width: 28px;
-    height: 28px;
+    width: 34px;
+    height: 34px;
     display: block;
     flex-shrink: 0;
     margin: 0 auto;
     vertical-align: unset;
     position: relative;
-    top: 0;
-    left: 0;
+    top: 3px;
+    left: 5px;
 }
 
-/* Badge / count dot */
 #specDL-download-dot {
     position: absolute;
     top: -4px;
@@ -610,8 +592,6 @@ footer .cta-img, footer .cta{display: none;}
     pointer-events: none;
 }
 
-/* ─── Add to download button ───────────────────────────────────────────────── */
-
 #addCart {
     margin-bottom: 0;
 }
@@ -631,7 +611,6 @@ footer .cta-img, footer .cta{display: none;}
     border: 2px solid transparent;
     cursor: pointer;
     transition: color 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
     user-select: none;
     position: relative;
     isolation: isolate;
@@ -654,8 +633,8 @@ footer .cta-img, footer .cta{display: none;}
 
 #addCart .pill-btn:hover {
     color: #000;
+    border-color: transparent;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 110, 199, 0.35);
 }
 
 #addCart .pill-btn:active {
@@ -682,7 +661,6 @@ footer .cta-img, footer .cta{display: none;}
     color: #000;
 }
 
-/* Added / disabled state */
 #addCart .pill-btn[disabled],
 #addCart .pill-btn:disabled {
     background: #f0f0f0;
@@ -702,8 +680,6 @@ footer .cta-img, footer .cta{display: none;}
     background: #e0e0e0;
     color: #aaa;
 }
-
-/* ─── Download card / panel ────────────────────────────────────────────────── */
 
 .specDL-card {
     position: absolute;
@@ -848,11 +824,11 @@ footer .cta-img, footer .cta{display: none;}
 }
 
 #specDL-card .badge-xls {
-    background-image: url('https://stg.kult.my/wp-content/uploads/2026/04/dl-xls.png');
+    background-image: url('/wp-content/uploads/2026/04/dl-xls.png');
 }
 
 #specDL-card .badge-pdf {
-    background-image: url('https://stg.kult.my/wp-content/uploads/2026/04/dl-pdf.png');
+    background-image: url('/wp-content/uploads/2026/04/dl-pdf.png');
 }
 
 #specDL-card .small {
@@ -862,8 +838,6 @@ footer .cta-img, footer .cta{display: none;}
     text-align: right;
     margin-top: 2px;
 }
-
-/* ─── Panel heading ─────────────────────────────────────────────────────────── */
 
 .specDL-card::before {
     content: 'Download List';
