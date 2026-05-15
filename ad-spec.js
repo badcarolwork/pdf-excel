@@ -127,8 +127,8 @@ function buildPdfDom(specs) {
 
   root.innerHTML = `
     <div class="specDL-page specDL-pageBreak specDL-cover">
-      <div style="display:inline-block;text-align:auto">
-        <img src="https://stg.kult.my/wp-content/uploads/2025/06/KULT-logo-black.svg" style="width:80%;height:auto;margin-bottom:20px;margin-left:auto;margin-right:auto;">
+      <div style="display:inline-block;text-align:center;">
+        <img style="width:80%;height:auto;margin-bottom:10px;margin-left:auto;margin-right:auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPQAAABHCAYAAAAwcWolAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAVcSURBVHgB7d3/cdxEGMbxb5j8j6kgmwoIFaBUQKiASwWBCiJXAFSQowKSCnKpAFNBlgpIB6B3ZPtu7PP9sN5XWq2ez8wOJONJHNuPtO+72tUT4OduvMHH7934DX9/deMCfz9242rP73/sRsLHy25k/Hl+337pxvsjH2Pf1x8Y7+/z8Jll+fCUPigJHxGhe9uNF/i7ZH+YzfNuPKNsY3/fSv852SexLF9/RdlW3Wjx9ynozxWZVMmBTvR3Z2+Z/kIhUp2SA+1Zx+6yujkjUqFSA2135oS/Q3WzyOyVGOhXxNS371HdLJUrLdCpG7/iL9MvlYhUrbRA/0nMVDtqLVikKCUFOnK9OSOyAKUEOqpuXqO6WRakhEAnVDeLuCgh0O+Iq5u/ILIgUwfa6uYGf3ZnzogszJSBboipb6N2fIkU7ynTSPRTbW8ZNcFk6xJ/XvsL7InFD/i6mirQ1gRL+LJ6WXWz7Grx5xnoFmdTTLntC/IKf1pvlsUbO9D24EiLP9XNIowb6ET/aKe3TH8cj8jijRnoyLpZRBgv0FF1s9abRXaMEehETN1sTbA1InIrOtCJ/ighbxmtN4vcEx3oFv+6OaO6WWSvyEBb3fwT/lQ3izwgKtCJuLp5jDcuiMxSRKDtrQgRdXPIo3IiNfEOtL37KOI87Ux/nraIHOC9OSPiTDDzGtXNIkeV/m4rY3XzBhE5ag6BXiMiJ5lDoCMOEBSp0hwCbc+AN4jIUXMItLHjisZ6SbjIbM0l0ImYd0WLVGUugTZ2iEHUsphIFeYUaKMGmcgBcwt0g44bEnnQ3AJtrJZWg0xkjzkG2sIccUi/yOzNMdBGa9Mie8w10EZr0yJ3zDnQiWU3yHQxk3vGCvR3xGx/tAbZUtemFWi5Z4xA2/ZHO23kNTFKX5uOuuA8Q+SO6ECv2R4btCHmPLCGsqfeUYHWU3NyT2SgM/0Jnbvs1xGve/Vem/6Mn+/x1+D7781IFaIC/dC7mjP9myK92Q+359T7H/w0+C+xrfCld2pXIirQh97V3BJzR1jhFxzvH3DPnWIN/uedZ6QKEYE+5V3NUQ0yr7XpK3w1+IQ64f+UXEZ36Gp4BzpzWoNqQ0yDLOHTINvgr2VYqBMxRyT/jVTDO9B/nPGxkQ2yxDCZmM+t5XHvyW6ICbPRm0gqMuWTYpmYBpnxmJaec3E6h80gLJwrjge0uf7YqDCbDVIN74P2z2W1tjV4Er4a+uAcq+UPsTvXG2Ikthcdq9czfWfdZgX2wIj1ARrinwb7xDQNMfs3NozHvq7efZFitd34z2m0nK9x/Pt3x78MD8THoM+tlLHidOuRPzfP8Q4/JX5Ot0rYnLEhZtpnYX7LMFHT7hJk9BKD6pSy28qWsSKaUDbtbni8NfWu0V4i1Skl0JnYBtmQqXfUmvmU1ujuXKWS9kNbAyvjLzFsbXpD3MVmChndnatVUqBtyh11N7RudeLxWurpktr6f0aqVNqJJRviGmRDuop2sbEXzmfmze7MepCkYiUeQRTVIGsYNvXO9DvIMvNkYW6RqpUY6ExczWrLWEMaZJl5hlphXohSDwmMapB5rE1n+lDPYep6Uyq0yCKUGujIBtnQtWmT6YNScrfYHuu0wxlVMy9Iycf4bojbOOD12F3bjeeU9UTZzcWwQd3sxSn9XO6oBlnCbxqa6Z+JtrvhlMG2r5PNGOwCs0YWqfRAZ+IaZEPXpu+ydeoV2zt2Zhw2tbaa/hv6i5ROH1mwqbdPniJqi+XN2vRLfGW2u5ianfEtPtshbZvlhu2pLwqw3HqCjOkF/YXJ/ntx/f83Ib+4Hvn61192xs2e6SsUYDngf9b4jvLdHCZ+AAAAAElFTkSuQmCC">
         <div style="height:4px;background:linear-gradient(90deg,#EDE6DB 0%,#FF6EC7 29.81%,#03FFFF 63.94%,#FF6A3D 96.15%);margin-bottom:50px;"></div>
       </div>
       <h1>Ad Specs Bundle</h1>
@@ -235,11 +235,11 @@ async function downloadPdf() {
   stage.removeAttribute("style");
 }
 
-(function loadSheetJS() {
-  if (window.XLSX) return;
-  const s = document.createElement("script");
-  s.src = "https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js";
-  s.onload = () => console.log("SheetJS ready");
+(function loadExcelJS() {
+  if (window.ExcelJS) return;
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js";
+  s.onload = function () { console.log("ExcelJS ready"); };
   document.head.appendChild(s);
 })();
 
@@ -257,197 +257,189 @@ function _stripHtml(str) {
     .trim();
 }
 
-function _setCell(ws, col, row, value, style) {
-  ws[col + row] = { v: value, t: "s", s: style || {} };
+function _safeSheetName(name) {
+  var result = String(name || "Sheet");
+  result = result.split("/").join("");
+  result = result.split(" ").join("_");
+  return result.substring(0, 31) || "Sheet";
 }
 
-var _border = {
-  top:    { style: "thin", color: { rgb: "D1D5DB" } },
-  bottom: { style: "thin", color: { rgb: "D1D5DB" } },
-  left:   { style: "thin", color: { rgb: "D1D5DB" } },
-  right:  { style: "thin", color: { rgb: "D1D5DB" } },
+var _BORDER = {
+  top:    { style: "thin", color: { argb: "FFD1D5DB" } },
+  bottom: { style: "thin", color: { argb: "FFD1D5DB" } },
+  left:   { style: "thin", color: { argb: "FFD1D5DB" } },
+  right:  { style: "thin", color: { argb: "FFD1D5DB" } },
 };
 
-var _XLS = {
+var _STYLE = {
   sheetTitle: {
-    font: { bold: true, sz: 13, color: { rgb: "FFFFFF" } },
-    fill: { patternType: "solid", fgColor: { rgb: "2E6DA4" } },
-    alignment: { vertical: "center", horizontal: "center", wrapText: false },
-    border: _border,
+    font:      { bold: true, size: 13, color: { argb: "FFFFFFFF" } },
+    fill:      { type: "pattern", pattern: "solid", fgColor: { argb: "FF000000" } },
+    alignment: { vertical: "middle", horizontal: "center", wrapText: false },
+    border:    _BORDER,
   },
   rowLabel: {
-    font: { bold: true, sz: 10, color: { rgb: "000000" } },
-    fill: { patternType: "solid", fgColor: { rgb: "F3F4F6" } },
-    alignment: { vertical: "center", horizontal: "left", wrapText: true },
-    border: _border,
+    font:      { bold: true, size: 10, color: { argb: "FF000000" } },
+    fill:      { type: "pattern", pattern: "solid", fgColor: { argb: "FFF3F4F6" } },
+    alignment: { vertical: "middle", horizontal: "left", wrapText: true },
+    border:    _BORDER,
   },
   titleCell: {
-    font: { sz: 10, color: { rgb: "000000" } },
-    fill: { patternType: "solid", fgColor: { rgb: "FFFFFF" } },
-    alignment: { vertical: "center", horizontal: "left", wrapText: false },
-    border: _border,
+    font:      { size: 10, color: { argb: "FF000000" } },
+    fill:      { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFFFF" } },
+    alignment: { vertical: "middle", horizontal: "left", wrapText: false },
+    border:    _BORDER,
   },
   colHeader: {
-    font: { bold: true, sz: 10, color: { rgb: "000000" } },
-    fill: { patternType: "solid", fgColor: { rgb: "9AF0E2" } },
-    alignment: { vertical: "center", horizontal: "center", wrapText: true },
-    border: _border,
+    font:      { bold: true, size: 10, color: { argb: "FF000000" } },
+    fill:      { type: "pattern", pattern: "solid", fgColor: { argb: "FF9AF0E2" } },
+    alignment: { vertical: "middle", horizontal: "center", wrapText: true },
+    border:    _BORDER,
   },
   dataCell: {
-    font: { sz: 10 },
-    fill: { patternType: "solid", fgColor: { rgb: "FFFFFF" } },
+    font:      { size: 10 },
+    fill:      { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFFFF" } },
     alignment: { vertical: "top", horizontal: "left", wrapText: true },
-    border: _border,
+    border:    _BORDER,
   },
   dataCellAlt: {
-    font: { sz: 10 },
-    fill: { patternType: "solid", fgColor: { rgb: "F9FAFB" } },
+    font:      { size: 10 },
+    fill:      { type: "pattern", pattern: "solid", fgColor: { argb: "FFF9FAFB" } },
     alignment: { vertical: "top", horizontal: "left", wrapText: true },
-    border: _border,
+    border:    _BORDER,
   },
   remarkCell: {
-    font: { italic: true, sz: 9, color: { rgb: "666666" } },
-    fill: { patternType: "solid", fgColor: { rgb: "FFFFFF" } },
+    font:      { italic: true, size: 9, color: { argb: "FF666666" } },
+    fill:      { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFFFF" } },
     alignment: { vertical: "top", horizontal: "left", wrapText: true },
   },
 };
-function _safeSheetName(name) {
-  var result = String(name || 'Sheet');
-  result = result.split('/').join('');
-  result = result.split(' ').join('_');
-  return result.substring(0, 31) || 'Sheet';
+
+function _applyStyle(cell, style) {
+  if (style.font)      cell.font      = style.font;
+  if (style.fill)      cell.fill      = style.fill;
+  if (style.alignment) cell.alignment = style.alignment;
+  if (style.border)    cell.border    = style.border;
 }
 
-function _colLetter(idx) {
-  var letters = "";
-  idx = idx + 1;
-  while (idx > 0) {
-    var rem = (idx - 1) % 26;
-    letters = String.fromCharCode(65 + rem) + letters;
-    idx = Math.floor((idx - 1) / 26);
-  }
-  return letters;
-}
-
-function _setCellAt(ws, colIdx, rowIdx, value, style) {
-  var ref = _colLetter(colIdx) + rowIdx;
-  ws[ref] = { v: value, t: "s", s: style || {} };
-}
-
-function _mergeRange(merges, startCol, startRow, endCol, endRow) {
-  merges.push({
-    s: { r: startRow - 1, c: startCol },
-    e: { r: endRow - 1,   c: endCol   },
-  });
-}
-
-function _buildHorizontalSheet(spec) {
-  var ws = {};
-  var merges = [];
-  var rowHeights = [];
-  var colWidths = [];
-
+function _buildWorksheet(wb, spec) {
+  var ws = wb.addWorksheet(_safeSheetName(spec.title));
   var tableRows = spec.table.slice(1);
   var numComponents = tableRows.length;
 
-  // Col A = ad title, Col B = row labels, Col C+ = components
-  var COL_TITLE      = 0;
-  var COL_LABEL      = 1;
-  var COL_FIRST_COMP = 2;
+  ws.columns = [
+    { width: 18 },
+    { width: 22 },
+    ...Array(numComponents).fill({ width: 30 }),
+  ];
 
-  var ROW_HEADER      = 1;
-  var ROW_COMP        = 2;
-  var ROW_FILE_FORMAT = 3;
-  var ROW_DIMENSION   = 4;
-  var ROW_QUANTITY    = 5;
-  var ROW_LANDING_URL = 6;
-  var ROW_REMARK      = 7;
+  var ROW_LOGO      = 1;
+  var ROW_LOGO_END  = 3;
+  var ROW_HEADER    = ROW_LOGO_END + 1;
+  var ROW_COMP      = ROW_HEADER + 1;
+  var ROW_FORMAT    = ROW_COMP + 1;
+  var ROW_DIMENSION = ROW_FORMAT + 1;
+  var ROW_QUANTITY  = ROW_DIMENSION + 1;
+  var ROW_LANDING   = ROW_QUANTITY + 1;
+  var ROW_REMARK    = ROW_LANDING + 1;
 
-  var lastDataCol = COL_FIRST_COMP + numComponents - 1;
+  ws.getRow(ROW_LOGO).height   = 20;
+  ws.getRow(ROW_LOGO + 1).height = 20;
+  ws.getRow(ROW_LOGO + 2).height = 20;
+  ws.mergeCells(ROW_LOGO, 1, ROW_LOGO_END, lastCol);
+  ws.getRow(ROW_HEADER).height  = 28;
+  ws.getRow(ROW_COMP).height    = 36;
+  ws.getRow(ROW_FORMAT).height  = 20;
+  ws.getRow(ROW_DIMENSION).height = 80;
+  ws.getRow(ROW_QUANTITY).height  = 20;
+  ws.getRow(ROW_LANDING).height   = 20;
+  ws.getRow(ROW_REMARK).height    = 40;
 
-  // Row 1: "AD TEMPLATE" | "TECHNICAL SPECIFICATIONS/ FORMAT" merged across remaining cols
-  _setCellAt(ws, COL_TITLE, ROW_HEADER, "AD TEMPLATE", _XLS.sheetTitle);
-  _setCellAt(ws, COL_LABEL, ROW_HEADER, "TECHNICAL SPECIFICATIONS/ FORMAT", _XLS.sheetTitle);
-  _mergeRange(merges, COL_LABEL, ROW_HEADER, lastDataCol, ROW_HEADER);
-  for (var hi = COL_FIRST_COMP; hi <= lastDataCol; hi++) {
-    _setCellAt(ws, hi, ROW_HEADER, "", _XLS.sheetTitle);
+  var lastCol = 2 + numComponents;
+
+  var headerCell = ws.getRow(ROW_HEADER).getCell(1);
+  headerCell.value = "AD TEMPLATE";
+  _applyStyle(headerCell, _STYLE.sheetTitle);
+
+  var techCell = ws.getRow(ROW_HEADER).getCell(2);
+  techCell.value = "TECHNICAL SPECIFICATIONS/ FORMAT";
+  _applyStyle(techCell, _STYLE.sheetTitle);
+  ws.mergeCells(ROW_HEADER, 2, ROW_HEADER, lastCol);
+  for (var hi = 3; hi <= lastCol; hi++) {
+    _applyStyle(ws.getRow(ROW_HEADER).getCell(hi), _STYLE.sheetTitle);
   }
-  rowHeights[ROW_HEADER - 1] = { hpt: 28 };
 
-  // Col A rows 2–6: spec title merged vertically
-  _setCellAt(ws, COL_TITLE, ROW_COMP, spec.title, _XLS.titleCell);
-  for (var tr = ROW_FILE_FORMAT; tr <= ROW_LANDING_URL; tr++) {
-    _setCellAt(ws, COL_TITLE, tr, "", _XLS.titleCell);
+  var titleCell = ws.getRow(ROW_COMP).getCell(1);
+  titleCell.value = spec.title;
+  _applyStyle(titleCell, _STYLE.titleCell);
+  ws.mergeCells(ROW_COMP, 1, ROW_LANDING, 1);
+  for (var tr = ROW_FORMAT; tr <= ROW_LANDING; tr++) {
+    _applyStyle(ws.getRow(tr).getCell(1), _STYLE.titleCell);
   }
-  _mergeRange(merges, COL_TITLE, ROW_COMP, COL_TITLE, ROW_LANDING_URL);
 
-  // Row 2: "Component" | component names
-  _setCellAt(ws, COL_LABEL, ROW_COMP, "Component", _XLS.rowLabel);
+  var compLabelCell = ws.getRow(ROW_COMP).getCell(2);
+  compLabelCell.value = "Component";
+  _applyStyle(compLabelCell, _STYLE.rowLabel);
   tableRows.forEach(function (row, i) {
-    _setCellAt(ws, COL_FIRST_COMP + i, ROW_COMP, _stripHtml(row[0]), _XLS.colHeader);
+    var cell = ws.getRow(ROW_COMP).getCell(3 + i);
+    cell.value = _stripHtml(row[0]);
+    _applyStyle(cell, _STYLE.colHeader);
   });
-  rowHeights[ROW_COMP - 1] = { hpt: 36 };
 
-  // Row 3: "File Format" | values
-  _setCellAt(ws, COL_LABEL, ROW_FILE_FORMAT, "File Format", _XLS.rowLabel);
+  var formatLabelCell = ws.getRow(ROW_FORMAT).getCell(2);
+  formatLabelCell.value = "File Format";
+  _applyStyle(formatLabelCell, _STYLE.rowLabel);
   tableRows.forEach(function (row, i) {
-    var style = i % 2 === 0 ? _XLS.dataCell : _XLS.dataCellAlt;
-    _setCellAt(ws, COL_FIRST_COMP + i, ROW_FILE_FORMAT, _stripHtml(row[3]), style);
+    var cell = ws.getRow(ROW_FORMAT).getCell(3 + i);
+    cell.value = _stripHtml(row[3]);
+    _applyStyle(cell, i % 2 === 0 ? _STYLE.dataCell : _STYLE.dataCellAlt);
   });
-  rowHeights[ROW_FILE_FORMAT - 1] = { hpt: 20 };
 
-  // Row 4: "Dimension (W x H)" | values
-  _setCellAt(ws, COL_LABEL, ROW_DIMENSION, "Dimension (W x H)", _XLS.rowLabel);
+  var dimLabelCell = ws.getRow(ROW_DIMENSION).getCell(2);
+  dimLabelCell.value = "Dimension (W x H)";
+  _applyStyle(dimLabelCell, _STYLE.rowLabel);
   tableRows.forEach(function (row, i) {
-    var style = i % 2 === 0 ? _XLS.dataCell : _XLS.dataCellAlt;
-    _setCellAt(ws, COL_FIRST_COMP + i, ROW_DIMENSION, _stripHtml(row[2]), style);
+    var cell = ws.getRow(ROW_DIMENSION).getCell(3 + i);
+    cell.value = _stripHtml(row[2]);
+    _applyStyle(cell, i % 2 === 0 ? _STYLE.dataCell : _STYLE.dataCellAlt);
   });
-  rowHeights[ROW_DIMENSION - 1] = { hpt: 80 };
 
-  // Row 5: "Quantity" | values
-  _setCellAt(ws, COL_LABEL, ROW_QUANTITY, "Quantity", _XLS.rowLabel);
+  var qtyLabelCell = ws.getRow(ROW_QUANTITY).getCell(2);
+  qtyLabelCell.value = "Quantity";
+  _applyStyle(qtyLabelCell, _STYLE.rowLabel);
   tableRows.forEach(function (row, i) {
-    var style = i % 2 === 0 ? _XLS.dataCell : _XLS.dataCellAlt;
-    _setCellAt(ws, COL_FIRST_COMP + i, ROW_QUANTITY, _stripHtml(row[1]), style);
+    var cell = ws.getRow(ROW_QUANTITY).getCell(3 + i);
+    cell.value = _stripHtml(row[1]);
+    _applyStyle(cell, i % 2 === 0 ? _STYLE.dataCell : _STYLE.dataCellAlt);
   });
-  rowHeights[ROW_QUANTITY - 1] = { hpt: 20 };
 
-  // Row 6: "Landing URL" | "1" merged across component cols
-  _setCellAt(ws, COL_LABEL, ROW_LANDING_URL, "Landing URL", _XLS.rowLabel);
-  _setCellAt(ws, COL_FIRST_COMP, ROW_LANDING_URL, "1", _XLS.dataCell);
+  var urlLabelCell = ws.getRow(ROW_LANDING).getCell(2);
+  urlLabelCell.value = "Landing URL";
+  _applyStyle(urlLabelCell, _STYLE.rowLabel);
+  var urlCell = ws.getRow(ROW_LANDING).getCell(3);
+  urlCell.value = "1";
+  _applyStyle(urlCell, _STYLE.dataCell);
   if (numComponents > 1) {
-    _mergeRange(merges, COL_FIRST_COMP, ROW_LANDING_URL, lastDataCol, ROW_LANDING_URL);
+    ws.mergeCells(ROW_LANDING, 3, ROW_LANDING, lastCol);
     for (var li = 1; li < numComponents; li++) {
-      _setCellAt(ws, COL_FIRST_COMP + li, ROW_LANDING_URL, "", _XLS.dataCell);
+      _applyStyle(ws.getRow(ROW_LANDING).getCell(3 + li), _STYLE.dataCell);
     }
   }
-  rowHeights[ROW_LANDING_URL - 1] = { hpt: 20 };
 
-  // Row 7: remark merged across all cols
-  var remarkText = _stripHtml(spec.remark);
-  for (var rc = COL_TITLE; rc <= lastDataCol; rc++) {
-    _setCellAt(ws, rc, ROW_REMARK, rc === COL_TITLE ? remarkText : "", _XLS.remarkCell);
+  var remarkCell = ws.getRow(ROW_REMARK).getCell(1);
+  remarkCell.value = _stripHtml(spec.remark);
+  _applyStyle(remarkCell, _STYLE.remarkCell);
+  ws.mergeCells(ROW_REMARK, 1, ROW_REMARK, lastCol);
+  for (var rc = 2; rc <= lastCol; rc++) {
+    _applyStyle(ws.getRow(ROW_REMARK).getCell(rc), _STYLE.remarkCell);
   }
-  _mergeRange(merges, COL_TITLE, ROW_REMARK, lastDataCol, ROW_REMARK);
-  rowHeights[ROW_REMARK - 1] = { hpt: 40 };
-
-  colWidths[COL_TITLE] = { wch: 18 };
-  colWidths[COL_LABEL] = { wch: 22 };
-  for (var ci = 0; ci < numComponents; ci++) {
-    colWidths[COL_FIRST_COMP + ci] = { wch: 30 };
-  }
-
-  ws["!ref"]    = "A1:" + _colLetter(lastDataCol) + ROW_REMARK;
-  ws["!merges"] = merges;
-  ws["!cols"]   = colWidths;
-  ws["!rows"]   = rowHeights;
 
   return ws;
 }
 
-function downloadExcel() {
-  if (!window.XLSX) {
-    alert("SheetJS is still loading — please try again in a moment.");
+async function downloadExcel() {
+  if (!window.ExcelJS) {
+    alert("ExcelJS is still loading — please try again in a moment.");
     return;
   }
 
@@ -457,15 +449,32 @@ function downloadExcel() {
     return;
   }
 
-  var specs = slugs.map(getSpec).filter(Boolean);
-  var wb = XLSX.utils.book_new();
+  var LOGO_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPQAAABHCAYAAAAwcWolAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAVcSURBVHgB7d3/cdxEGMbxb5j8j6kgmwoIFaBUQKiASwWBCiJXAFSQowKSCnKpAFNBlgpIB6B3ZPtu7PP9sN5XWq2ez8wOJONJHNuPtO+72tUT4OduvMHH7934DX9/deMCfz9242rP73/sRsLHy25k/Hl+337pxvsjH2Pf1x8Y7+/z8Jll+fCUPigJHxGhe9uNF/i7ZH+YzfNuPKNsY3/fSv852SexLF9/RdlW3Wjx9ynozxWZVMmBTvR3Z2+Z/kIhUp2SA+1Zx+6yujkjUqFSA2135oS/Q3WzyOyVGOhXxNS371HdLJUrLdCpG7/iL9MvlYhUrbRA/0nMVDtqLVikKCUFOnK9OSOyAKUEOqpuXqO6WRakhEAnVDeLuCgh0O+Iq5u/ILIgUwfa6uYGf3ZnzogszJSBboipb6N2fIkU7ynTSPRTbW8ZNcFk6xJ/XvsL7InFD/i6mirQ1gRL+LJ6WXWz7Grx5xnoFmdTTLntC/IKf1pvlsUbO9D24EiLP9XNIowb6ET/aKe3TH8cj8jijRnoyLpZRBgv0FF1s9abRXaMEehETN1sTbA1InIrOtCJ/ighbxmtN4vcEx3oFv+6OaO6WWSvyEBb3fwT/lQ3izwgKtCJuLp5jDcuiMxSRKDtrQgRdXPIo3IiNfEOtL37KOI87Ux/nraIHOC9OSPiTDDzGtXNIkeV/m4rY3XzBhE5ag6BXiMiJ5lDoCMOEBSp0hwCbc+AN4jIUXMItLHjisZ6SbjIbM0l0ImYd0WLVGUugTZ2iEHUsphIFeYUaKMGmcgBcwt0g44bEnnQ3AJtrJZWg0xkjzkG2sIccUi/yOzNMdBGa9Mie8w10EZr0yJ3zDnQiWU3yHQxk3vGCvR3xGx/tAbZUtemFWi5Z4xA2/ZHO23kNTFKX5uOuuA8Q+SO6ECv2R4btCHmPLCGsqfeUYHWU3NyT2SgM/0Jnbvs1xGve/Vem/6Mn+/x1+D7781IFaIC/dC7mjP9myK92Q+359T7H/w0+C+xrfCld2pXIirQh97V3BJzR1jhFxzvH3DPnWIN/uedZ6QKEYE+5V3NUQ0yr7XpK3w1+IQ64f+UXEZ36Gp4BzpzWoNqQ0yDLOHTINvgr2VYqBMxRyT/jVTDO9B/nPGxkQ2yxDCZmM+t5XHvyW6ICbPRm0gqMuWTYpmYBpnxmJaec3E6h80gLJwrjge0uf7YqDCbDVIN74P2z2W1tjV4Er4a+uAcq+UPsTvXG2Ikthcdq9czfWfdZgX2wIj1ARrinwb7xDQNMfs3NozHvq7efZFitd34z2m0nK9x/Pt3x78MD8THoM+tlLHidOuRPzfP8Q4/JX5Ot0rYnLEhZtpnYX7LMFHT7hJk9BKD6pSy28qWsSKaUDbtbni8NfWu0V4i1Skl0JnYBtmQqXfUmvmU1ujuXKWS9kNbAyvjLzFsbXpD3MVmChndnatVUqBtyh11N7RudeLxWurpktr6f0aqVNqJJRviGmRDuop2sbEXzmfmze7MepCkYiUeQRTVIGsYNvXO9DvIMvNkYW6RqpUY6ExczWrLWEMaZJl5hlphXohSDwmMapB5rE1n+lDPYep6Uyq0yCKUGujIBtnQtWmT6YNScrfYHuu0wxlVMy9Iycf4bojbOOD12F3bjeeU9UTZzcWwQd3sxSn9XO6oBlnCbxqa6Z+JtrvhlMG2r5PNGOwCs0YWqfRAZ+IaZEPXpu+ydeoV2zt2Zhw2tbaa/hv6i5ROH1mwqbdPniJqi+XN2vRLfGW2u5ianfEtPtshbZvlhu2pLwqw3HqCjOkF/YXJ/ntx/f83Ib+4Hvn61192xs2e6SsUYDngf9b4jvLdHCZ+AAAAAElFTkSuQmCC";
 
-  specs.forEach(function (spec) {
-    var ws = _buildHorizontalSheet(spec);
-    XLSX.utils.book_append_sheet(wb, ws, _safeSheetName(spec.title));
+  var specs = slugs.map(getSpec).filter(Boolean);
+  var wb = new ExcelJS.Workbook();
+
+  var logoId = wb.addImage({
+    base64: LOGO_BASE64,
+    extension: "png",
   });
 
-  XLSX.writeFile(wb, "KULT_Display_AdSpec.xlsx");
+  specs.forEach(function (spec) {
+    var ws = _buildWorksheet(wb, spec);
+    ws.addImage(logoId, {
+      tl: { col: 0, row: 0 },
+      br: { col: 2, row: 3 },
+    });
+  });
+
+  var buffer = await wb.xlsx.writeBuffer();
+  var blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "KULT_Display_AdSpec.xlsx";
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 document.getElementById("specDL-card-close").addEventListener("click", function () {
