@@ -127,9 +127,9 @@ function buildPdfDom(specs) {
 
   root.innerHTML = `
     <div class="specDL-page specDL-pageBreak specDL-cover">
-      <div style="display:inline-block;">
-        <img style="width:60%;height:auto;margin-bottom:10px;">
-        <div style="height:4px;background:linear-gradient(90deg,#EDE6DB 0%,#FF6EC7 29.81%,#03FFFF 63.94%,#FF6A3D 96.15%);margin-top:7px;"></div>
+      <div style="display:inline-block;text-align:auto">
+        <img src="https://stg.kult.my/wp-content/uploads/2025/06/KULT-logo-black.svg" style="width:80%;height:auto;margin-bottom:20px;margin-left:auto;margin-right:auto;">
+        <div style="height:4px;background:linear-gradient(90deg,#EDE6DB 0%,#FF6EC7 29.81%,#03FFFF 63.94%,#FF6A3D 96.15%);margin-bottom:50px;"></div>
       </div>
       <h1>Ad Specs Bundle</h1>
       <p class="specDL-muted">Generated ${new Date().toLocaleString()}</p>
